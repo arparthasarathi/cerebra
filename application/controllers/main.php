@@ -1746,9 +1746,11 @@ class Main extends CI_Controller {
 				echo "return to k site and register";
 			}
 	}
-	public function ros($url)
+	public function ros($url=null)
 	{
 		
+		if(!$url==null)
+		{
 		if($this->bitauth->logged_in())
 		{
 			$ret=$this->session->all_userdata();
@@ -1760,10 +1762,16 @@ class Main extends CI_Controller {
 						$urllevel=$this->rosmodel->getLevelByUrl($url);
 						if(strcmp($urllevel,$level)==0)
 						{
-							echo "hi";
+							
 							$img= $this->rosmodel->getimagesequence($level);
+							$i=0;
 							foreach($img as $seq)
-							echo $seq.'<br>';
+								{
+									$data['img'.$i]=$seq;
+									$i++;
+								}
+								$data['length']=$i;
+							$this->load->view('questions',$data);
 
 						}
 						else
@@ -1778,9 +1786,18 @@ class Main extends CI_Controller {
 		{
 			echo "register";
 		}
+	}
+	else
+	{
+		$this->load->view('ros_index.php');
+	}
 		
 		
 		
+		
+	}
+	public function ros_judge()
+	{
 		
 	}
 }

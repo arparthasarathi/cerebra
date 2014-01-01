@@ -65,4 +65,8 @@ Class Rosmodel extends CI_Model
                 );
 		return $marks["level".$level];
 	}
+	public function ros_answer_judge()
+	{
+		
+	}
 }
