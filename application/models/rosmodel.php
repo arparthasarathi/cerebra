@@ -47,5 +47,22 @@ Class Rosmodel extends CI_Model
 		 
 		   	
     }
+    public function getLevelByUrl($kid)
+	{
 		
+		$url=array('0','connect.php','alter_ego.php');
+		if(in_array($kid, $url))
+			return array_search($kid, $url);
+
+	}
+		
+	public function getimagesequence($level)
+	{
+		$marks = array( 
+		"level1" => array("img1" => '1.jpg',"img2" => '2.jpg',"img3" => '3.jpg'),
+		"level2" => array("img1" => '101.jpg',"img2" => '102.jpg',"img3" => '103.jpg'),
+         "zara" => array("physics" => 31,"maths" => 22,"chemistry" => 39)
+                );
+		return $marks["level".$level];
+	}
 }

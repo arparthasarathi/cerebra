@@ -1746,23 +1746,41 @@ class Main extends CI_Controller {
 				echo "return to k site and register";
 			}
 	}
-	public function ros()
+	public function ros($url)
 	{
+		
 		if($this->bitauth->logged_in())
 		{
-		$ret=$this->session->all_userdata();
-		$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-		if($this->rosmodel->checkregistration($logged_details->kid))
-			{
-				$level=$this->rosmodel->getLevel($logged_details->kid);
-				echo $level;
-			}
+			$ret=$this->session->all_userdata();
+			$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
+			if($this->rosmodel->checkregistration($logged_details->kid))
+					{
+
+						$level=$this->rosmodel->getLevel($logged_details->kid); //getting level from db
+						$urllevel=$this->rosmodel->getLevelByUrl($url);
+						if(strcmp($urllevel,$level)==0)
+						{
+							echo "hi";
+							$img= $this->rosmodel->getimagesequence($level);
+							foreach($img as $seq)
+							echo $seq.'<br>';
+
+						}
+						else
+						{
+								echo "No cheating";
+						}
+					}
+			else
+					$this->ros_register();
+		}
 		else
 		{
-			$this->ros+register();
+			echo "register";
 		}
-		}
-		else
-			echo "Login";
+		
+		
+		
+		
 	}
 }
