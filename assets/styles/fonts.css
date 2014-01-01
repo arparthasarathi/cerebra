@@ -1,0 +1,73 @@
+@import url('font-awesome.min.css');
+
+@font-face 
+{
+	font-family: "Samarkan";
+	src: url('../fonts/Samarkan/Samarkan.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face 
+{
+	font-family: "HelveticaNeueUltraLight";
+	src: url('../fonts/Helvetica/HelveticaNeue-UltraLight.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face 
+{
+	font-family: "Montserrat";
+	src: url('../fonts/Montserrat/Montserrat.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face 
+{
+	font-family: "SegoeUI";
+	src: url('../fonts/SegoeUI/SegoeUI.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'MuseoSans';
+	src: url('../fonts/MuseoSans/MuseoSans-100.otf') format('opentype');
+	font-weight: 100;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'MuseoSans';
+	src: url('../fonts/MuseoSans/MuseoSans-300.otf') format('opentype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'MuseoSans';
+	src: url('../fonts/MuseoSans/MuseoSans_500.otf') format('opentype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'MuseoSans';
+	src: url('../fonts/MuseoSans/MuseoSans_700.otf') format('opentype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face
+{
+	font-family: 'MuseoSans';
+	src: url('../fonts/MuseoSans/MuseoSans_900.otf') format('opentype');
+	font-weight: 900;
+	font-style: normal;
+}
