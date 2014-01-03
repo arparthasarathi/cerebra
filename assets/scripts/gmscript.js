@@ -1,37 +1,8 @@
-function scriptJudge()
-{
-var url = "ros_judge";
-var params = "answer=".$document.getElementById('answer').value;
-alert(params);
-var http;
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  http=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  http=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (http.readyState==4 && xmlhttp.status==200)
-    {
-    document.getElementById("my").innerHTML=http.responseText;
-    }
-}
+function get_record_id(record_id) {
+     var p = {};
+     p[record_id] = record_id
+     $('#content').load(/main/ros_judge,p,function(str){
 
-http.open("POST", url, true);
+     });
 
-//Send the proper header information along with the request
-http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-http.setRequestHeader("Content-length", params.length);
-http.setRequestHeader("Connection", "close");
-
-http.onreadystatechange = function() {//Call a function when the state changes.
-	if(http.readyState == 4 && http.status == 200) {
-		alert(http.responseText);
-	}
-}
-http.send(params);
-return 1;
 }

@@ -15,7 +15,7 @@
 |
 */
 $config['base_url']	= 'http://localhost/ros';
-// $config['base_url']	= 'http://kurukshetra.org.in/';
+// $config['base_url']	= 'http://kurukshetra.org.in/ros/';
 /*
 |--------------------------------------------------------------------------
 | Index File

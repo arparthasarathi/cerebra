@@ -22,6 +22,7 @@ class Main extends CI_Controller {
 		$this->load->model('rosmodel');
 		$this->db = $this->load->database('default',TRUE);
 		$this->cms_db = $this->load->database('cms',TRUE);
+		
 	}
 
 	public function index()
@@ -43,14 +44,14 @@ class Main extends CI_Controller {
 
 		$data['system_type'] = "home";
 
-		$data['galleries'] = $this->mainmodel->getgalleries();
+		//$data['galleries'] = $this->mainmodel->getgalleries();
 		$data['updates'] = $this->mainmodel->getupdates();
-		$data['static_page'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
-		$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
+		//$data['static_page'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
+		//$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
 
-        $data['colleges'] = $this->mainmodel->getlistofcollege();
-        $data['degrees'] = $this->mainmodel->getlistofdegree();
-        $data['courses'] = $this->mainmodel->getlistofcourse();
+        //$data['colleges'] = $this->mainmodel->getlistofcollege();
+        //$data['degrees'] = $this->mainmodel->getlistofdegree();
+        //$data['courses'] = $this->mainmodel->getlistofcourse();
 
 		if($this->bitauth->logged_in())
 		{
@@ -67,38 +68,16 @@ class Main extends CI_Controller {
         	$data['logged_in'] = 1;
 		}
 
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);			
-			$this->load->view('_template/basic/section-start');
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('content/content-home-page',$data);
-			$this->load->view('_template/basic/section-end');
-		} else { 
 			$this->load->view('_template/head/doctype');
 			$this->load->view('_template/head/html-start');
+			$this->load->view('_template/head/scripts');
 			$this->load->view('_template/head/head-start');
 			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
+			$data['title']="ROS";
+			$data['welcome']="Welcome to ROS";
 			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/head/title',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('content/content-home-page',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
+			$this->load->view('_template/basic/ros_navigation',$data);
+			$this->load->view('_template/basic/roswelcome',$data);
 	}
 
 	public function events($eventurl="default")
@@ -1319,10 +1298,10 @@ class Main extends CI_Controller {
 			$this->load->view('_template/basic/header');
 			$this->load->view('_template/basic/pjax-start');
 			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
+			//$this->load->view('_template/basic/section-start');
 			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
+			//$this->load->view('content/content-page-holder',$data);
+			//$this->load->view('content/content-sidebar-navigation',$data);
 			$this->load->view('_template/basic/section-end');
 			$this->load->view('_template/basic/container-end');
 			$this->load->view('_template/basic/pjax-end');
@@ -1748,56 +1727,194 @@ class Main extends CI_Controller {
 	}
 	public function ros($url=null)
 	{
-		
-		if(!$url==null)
-		{
-		if($this->bitauth->logged_in())
-		{
+
+			if($this->bitauth->logged_in())
+			{
+
+
 			$ret=$this->session->all_userdata();
 			$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-			if($this->rosmodel->checkregistration($logged_details->kid))
-					{
+			if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
+			{
+				if($logged_details->name!=NULL && $logged_details->coll) $logged_details->kid;
+				$level=$this->rosmodel->getLevel($logged_details->kid);
+				echo "Inside";
+				
+				$this->loadLevel($level);
 
-						$level=$this->rosmodel->getLevel($logged_details->kid); //getting level from db
-						$urllevel=$this->rosmodel->getLevelByUrl($url);
-						if(strcmp($urllevel,$level)==0)
-						{
-							
-							$img= $this->rosmodel->getimagesequence($level);
-							$i=0;
-							foreach($img as $seq)
-								{
-									$data['img'.$i]=$seq;
-									$i++;
-								}
-								$data['length']=$i;
-							$this->load->view('questions',$data);
-
-						}
-						else
-						{
-								echo "No cheating";
-						}
-					}
+			}
 			else
-					$this->ros_register();
-		}
-		else
-		{
-			echo "register";
-		}
+				{
+					$data['profile']=0;
+					redirect('ros.kurkushetra.org.in',$data);				
+				}
+
 	}
 	else
 	{
-		$this->load->view('ros_index.php');
-	}
-		
-		
-		
-		
-	}
-	public function ros_judge()
-	{
-		
+		redirect('ros.kurkushetra.org.in');
 	}
 }
+
+	public function submit()
+	{
+		
+		if($this->bitauth->logged_in())
+		{
+			
+			$data['logged_in']=1;
+			$ret=$this->session->all_userdata();
+			$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
+			$data['log'] =$logged_details;
+			$answer=$this->rosmodel->getanswer($this->input->post('level'));
+			if(strcmp(strtolower($this->input->post('answer')),$answer)==0)
+				{
+					
+					$this->rosmodel->promote($this->input->post('level'), $logged_details->kid);
+									$this->ros('some');
+				}
+			else
+		{
+
+			$this->load->view('_template/head/doctype');
+			$this->load->view('_template/head/html-start');
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/meta-tags');
+			$data['title']="ROS";
+			
+			$this->load->view('_template/head/styles');
+			$this->load->view('_template/basic/ros_navigation',$data);
+			$data['img']="meme1.jpg";
+			$this->load->view('_template/basic/roswelcome',$data);
+		}
+		}
+		
+	}
+	public function ros_level($url=null)
+	{
+		
+		if($this->bitauth->logged_in())
+		{
+		$ret=$this->session->all_userdata();
+		$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
+		$data['log']=$logged_details;
+		$level=$this->rosmodel->getLevel($logged_details->kid);
+		switch($level)
+			{
+				case 1:$data['level']=1;
+						$data['img']=array('101.jpg','102.jpg');
+						$data['pageclue']="";
+						
+						break;
+				case 2:$data['level']=2;
+						$data['img']=array('201.jpg');
+						$data['pageclue']="better known as?";
+						break;
+				case 3:$data['level']=3;
+						$data['img']=array('301.jpg','302.jpg','303.jpg');
+						$data['pageclue']="";
+						break;
+				case 4:$data['level']=4;
+						$data['img']=array('401.jpg','402.jpg');
+						$data['pageclue']="";
+						break;
+				case 5:$data['level']=5;
+						$data['img']=array('501.jpg');
+						$data['pageclue']="that image";
+						break;
+				case 6:$data['level']=6;
+						$data['img']=array('601.jpg','602.jpg','603.jpg','604.jpg','605.jpg');
+						$data['pageclue']="The pic with those names";
+						break;
+				case 7:$data['level']=7;
+						$data['img']=array('701.jpg');
+						$data['pageclue']="that image alone";
+						break;
+				case  8:$data['level']=8;
+						$data['img']=array('success.jpg');
+						$data['succesnote']="Congrats ".$logged_details->kid." Keep tuned for the Main run";
+						break;
+
+			}
+			$data['logged_in']=1;
+		
+			$this->load->view('_template/head/doctype');
+			$this->load->view('_template/head/html-start');
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/meta-tags');
+			$data['title']="ROS";
+			
+			$this->load->view('_template/head/styles');
+			$this->load->view('_template/basic/ros_navigation',$data);
+			$this->load->view('questions',$data);
+		}
+		else
+		{
+			redirect(base_url());
+		}
+
+	}
+	public function loadLevel($level)
+	{
+		if($this->bitauth->logged_in())
+		{
+		$ret=$this->session->all_userdata();
+		$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
+		$level=$this->rosmodel->getLevel($logged_details->kid);
+		switch($level)
+			{
+				case 1:$data['level']=1;
+						$data['urlclue']='connect.php';
+						break;
+				case 2:$data['level']=2;
+						$data['urlclue']='alter_ego';
+						break;
+				case 3:$data['urlclue']='connect';
+						break;
+				case 4:$data['urlclue']='level4.php';
+						break;
+				case 5:$data['urlclue']='level5.php';
+						break;
+				case 6:$data['urlclue']='uk.php';
+						break;
+				case 7:$data['urlclue']='level7.php';
+						break;
+			}
+
+		
+			$url=base_url().'ros_level/'.$data['urlclue'];
+			//redirect($url);
+		}
+		else
+			redirect(base_url());
+
+	}
+	public function instruction()
+	{
+			$data['logged_in']=0;
+			$this->load->view('_template/head/doctype');
+			$this->load->view('_template/head/html-start');
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/meta-tags');
+			$data['title']="ROS";
+			$this->load->view('_template/head/styles');
+			$this->load->view('_template/basic/ros_navigation',$data);
+			$this->load->view('_template/basic/ros_rules.php');
+	}
+	public function comments()
+	{
+			$data['logged_in']=0;
+			$this->load->view('_template/head/doctype');
+			$this->load->view('_template/head/html-start');
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/meta-tags');
+			$data['title']="ROS";
+			$this->load->view('_template/head/styles');
+			$this->load->view('_template/basic/ros_navigation',$data);
+			$this->load->view('_template/basic/ros_comments.php');
+	}
+}	

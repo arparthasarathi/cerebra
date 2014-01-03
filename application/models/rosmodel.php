@@ -12,61 +12,61 @@ Class Rosmodel extends CI_Model
 
 		}
 	}
-	public function addrosuser($kid)
-	{
-		echo $kid;
-		$data = array('kid' => $kid);
-		$query = $this->db->query("SELECT kid FROM ros_user where kid='$kid'");
-		
-		if($query->result())
-			return 0;
-		else {
-			$this->db->insert('ros_user',$data);
-			unset($data);
-			$data = array('' => $kid,'level'=>1);
-			$this->db->insert('ros_user_stat',$data);
-			return 1;			
-		}
-		
-			
-	}
-		
 	
-	public function checkregistration($kid)
-	{
-		$query=$this->db->query("SELECT kid FROM ros_user_stat where kid='$kid'");
-		if($query->result())
-			return 1;
-	}
+		
 	public function getLevel($kid)
 	{
 		
-		$query = $this->db->query("SELECT level FROM ros_user_stat WHERE kid='$kid'");
+		$query = $this->db->query("SELECT level FROM ros_main WHERE kid='$kid'");
+		
+		
+		if($query->result())
+		{
 		foreach ($query->result() as $row)
-		  	  		return  $row->level;
-		 
-		   	
-    }
-    public function getLevelByUrl($kid)
-	{
-		
-		$url=array('0','connect.php','alter_ego.php');
-		if(in_array($kid, $url))
-			return array_search($kid, $url);
+		  	  		$level= $row->level;
+		 }
+		 else
+		 {
 
-	}
-		
-	public function getimagesequence($level)
+		 	$this->db->insert('ros_main',array('kid'=>$kid,'level'=>1));
+		 			$level=1;
+		 }
+		   	return $level;
+    }
+    public function getanswer($level)
+    {
+
+    	$answer=array('0',
+    		'hodor',
+    		'marilynmonroe',
+    		'lamborghini',
+    		'pranavmistry',
+    		'juggernaut',
+    		'tomandjerry',
+    		'severussnape');
+    	return $answer[$level];
+    }
+    
+    public function promote($level,$kid)
 	{
-		$marks = array( 
-		"level1" => array("img1" => '1.jpg',"img2" => '2.jpg',"img3" => '3.jpg'),
-		"level2" => array("img1" => '101.jpg',"img2" => '102.jpg',"img3" => '103.jpg'),
-         "zara" => array("physics" => 31,"maths" => 22,"chemistry" => 39)
-                );
-		return $marks["level".$level];
-	}
-	public function ros_answer_judge()
-	{
+		$newlevel= $level+1;
+		$data = array(
+   'kid'=>$kid,
+   'level' => $level 
+   
+);
+
+$this->db->insert('ros_log', $data); 
+	//	$this->db->query("INSERT INTO ros_log values ('id',kid='$kid',level=$level,'timestamp')");
+		echo $this->db->last_query();
+		if($this->db->query("UPDATE ros_main set level='$newlevel' where kid='$kid'"))
+			{
+
+				
+					return 1;
+			}
+		else
+			return 0;
 		
 	}
 }

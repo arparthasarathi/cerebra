@@ -1,9 +1,43 @@
+<title>ROS</title>
 <?php
-echo '<form name="ambassador" method="post" onsubmit="scriptJudge()">';
-for($i=1;$i<=$length;$i++)
-echo '<br/><img width="110" height="100" src ='.base_url().'assets/images/ros/img'.$i.'.jpg>HI</img>';
-echo '<br/><label>Answer</label><input type="text" name="answer" id="answer"/>';
-echo '<input type="submit" value="sayanswer" name="Sayanswer"/>';
-echo '<div id="my"></div>';
-echo '<br/><script src ='.base_url().'assets/scripts/gmscript.js></script>';
+
+ echo form_open('submit');
+
+echo '<div class="center-page">';
+if(isset($level))
+{
+	echo '<title>ROS'.$level.'</title>';
+	echo '<div class="head">LEVEL:'.$level.'</div>';
+}
+if(isset($img))
+{
+foreach($img as $pic)
+{
+
+     echo '<img width="200" height="200" src ='.base_url().'assets/images/ros/'.$pic.' class="image-block">';
+}
+   echo '</div>';
+  }
+ echo '<div class="center-page">';
+ echo '<br>';
+if(isset($pageclue))
+	echo '<b>'.$pageclue.'</b></br></br>';
+if(!isset($succesnote))
+{
+echo form_label('Answer');
+echo form_input('answer');
+echo '<p></p><input type="submit" class="btn btn-warning" value="Say answer" name="Submit"/>';
+
+echo form_hidden('level',$level);
+
+}
+else
+{
+	echo $succesnote;
+}
+
+
+echo '</div>';
+
+
 ?>

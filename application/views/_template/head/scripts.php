@@ -2,12 +2,12 @@
 		<script type="text/javascript" src="<? echo base_url(); ?>assets/scripts/jquery.cookie.js"></script>
 		<script type="text/javascript" src="<? echo base_url(); ?>assets/scripts/jquery.pjax.js"></script>
 		<script type="text/javascript" src="<? echo base_url(); ?>assets/scripts/bootstrap.min.js"></script>
-		<script type="text/javascript" src="<? echo base_url(); ?>assets/scripts/jquery.tickertype.js"></script>
+		
     	<script type="text/javascript" src="<? echo base_url(); ?>assets/scripts/responsiveslides.min.js"></script>	
 		<script type="text/javascript">
 			var base_url = "<? echo base_url(); ?>";			
 		</script>
-		<script type="text/javascript" src="<? echo base_url(); ?>assets/scripts/nprogress.js"></script>
+		
 		<script type="text/javascript" src="<? echo base_url(); ?>assets/scripts/jquery.autocomplete.min.js"></script>
     	<script data-main="<? echo base_url(); ?>/assets/scripts/main" src="<? echo base_url(); ?>assets/scripts/require.js"></script>	
     	<script type="text/javascript">
