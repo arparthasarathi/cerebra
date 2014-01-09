@@ -40,4 +40,9 @@
   </script>
   
  <title>ROS|FORUM</title><div class="white-head">Official Forum</div>
-  <div class="fb-comments comments" data-href="http://ros.kurukshetra.org.in" data-width="500" data-numposts="8" data-colorscheme="light"></div>
+
+   
+<div class="comment">
+   <? echo '<h3 align="center">LEVEL '.$level.'</h3><br><div class="fb-comments comments" data-href="http://ros.kurukshetra.org.in/level'.$level.'" data-width="500" data-numposts="8" data-colorscheme="dark"></div>';?>
+     
+  

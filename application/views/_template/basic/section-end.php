@@ -1,2 +1,0 @@
-			</section>
-			<? echo "\r\n"; ?>

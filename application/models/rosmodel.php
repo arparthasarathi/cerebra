@@ -14,11 +14,11 @@ Class Rosmodel extends CI_Model
 	}
 	
 		
-	public function getLevel($kid)
+	public function getLevel($kid,$name=null)
 	{
 		
 		$query = $this->db->query("SELECT level FROM ros_main WHERE kid='$kid'");
-		
+		echo $name;
 		
 		if($query->result())
 		{
@@ -27,8 +27,8 @@ Class Rosmodel extends CI_Model
 		 }
 		 else
 		 {
-
-		 	$this->db->insert('ros_main',array('kid'=>$kid,'level'=>1));
+		 	if($name!=null)
+		 	$this->db->insert('ros_main',array('kid'=>$kid,'name'=>$name,'level'=>1));
 		 			$level=1;
 		 }
 		   	return $level;
@@ -37,13 +37,47 @@ Class Rosmodel extends CI_Model
     {
 
     	$answer=array('0',
-    		'hodor',
-    		'marilynmonroe',
-    		'lamborghini',
-    		'pranavmistry',
-    		'juggernaut',
-    		'tomandjerry',
-    		'severussnape');
+    				'koopatroopa',
+    				'jameslipton',
+    				'tautonyms',
+    				'duncanmacdougall',
+    				'mikelconrad',
+    				'popesixtusiv',
+    				'undine',
+    				'montypython',
+					'ninthcircleofhell',
+					'tmnt',
+					'yannmartel',
+					'grimmauldplace',
+					'batterseapowerstation',
+					'heyricky',
+					'besnierboeck',
+					'boeing777',
+					'lurlur',
+					'torpedobomber',
+					'ianfleming',
+					'vishwanathananand',
+					'charley',
+					'rautjarvi',
+					'blackpearl',
+			'fermiparadox',
+			'jrrtolkien',
+			'america',
+			'thinkdifferent',
+			'newyorkcity',
+			'bothsidesnow',
+			'sriracha',
+			'horemakhet',
+			'rickriordan',
+			'benedictcumberbatch',
+			'pinkfloyd',
+			'yaakovgesundheit',
+			'stephenfung',
+			'wow',
+			'adamwest',
+			'eclipse',
+			'davidlean',
+			'johncarpenter','sherlock');
     	return $answer[$level];
     }
     
@@ -56,9 +90,9 @@ Class Rosmodel extends CI_Model
    
 );
 
-$this->db->insert('ros_log', $data); 
-	//	$this->db->query("INSERT INTO ros_log values ('id',kid='$kid',level=$level,'timestamp')");
-		echo $this->db->last_query();
+		//$this->db->insert('ros_log', $data); 
+	//$this->db->query("INSERT INTO ros_log values ('id',kid='$kid',level=$level,'timestamp')");
+		//echo $this->db->last_query();
 		if($this->db->query("UPDATE ros_main set level='$newlevel' where kid='$kid'"))
 			{
 

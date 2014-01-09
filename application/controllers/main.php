@@ -14,21 +14,20 @@ class Main extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('gravatar');
 		$this->load->helper('kimage');
-
+		$this->load->model('rosmodel');
 		$this->load->library('form_validation');
 		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
-		$this->load->model('mainmodel');
-		$this->load->model('rosmodel');
+		
 		$this->db = $this->load->database('default',TRUE);
-		$this->cms_db = $this->load->database('cms',TRUE);
+//		$this->cms_db = $this->load->database('cms',TRUE);
 		
 	}
 
 	public function index()
 	{
 		
-		$data['title'] = "Kurukshetra 2014 | The Battle of Brains";
+		//$data['title'] = "Kurukshetra 2014 | The Battle of Brains";
 		$data['logged_in'] = 0;
 		$data['sidebar'] = 2;
 		$data['log']=0;
@@ -45,7 +44,7 @@ class Main extends CI_Controller {
 		$data['system_type'] = "home";
 
 		//$data['galleries'] = $this->mainmodel->getgalleries();
-		$data['updates'] = $this->mainmodel->getupdates();
+		$data['updates'] = 0;
 		//$data['static_page'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
 		//$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
 
@@ -67,1645 +66,23 @@ class Main extends CI_Controller {
         	////////////////////////////////////////END OF SESSION DETAILS
         	$data['logged_in'] = 1;
 		}
-
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
 			$data['title']="ROS";
 			$data['welcome']="Welcome to ROS";
+			$this->load->view('_template/head/doctype');
+			$this->load->view('_template/head/html-start');
+			$this->load->view('_template/basic/ros_meta');
 			$this->load->view('_template/head/styles');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/title',$data);
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-end');
+			$this->load->view('_template/head/body-start');
 			$this->load->view('_template/basic/ros_navigation',$data);
 			$this->load->view('_template/basic/roswelcome',$data);
-	}
-
-	public function events($eventurl="default")
-	{
-
-		$data['title'] = "Events | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-		$data['profile_complete'] = 0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-
-        	if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        	{
-        		$data['profile_complete'] = 1;
-        	}
-		}
-
-
-		
-		$data['system_type'] = 'events';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 1;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 0;
-
-		$data['subcategories'] = $this->mainmodel->getcontentsubcategories($data['system_type']);
-
-		if($data['subcategories'])
-		{
-			foreach ($data['subcategories'] as $subcategory) {
-				$data['content_'.$subcategory['content_subcategory']] = $this->mainmodel->getcontentitembysubcategories($subcategory['content_subcategory'],$data['system_type']);
-
-				foreach ($data['content_'.$subcategory['content_subcategory']] as $content) {
-					$data['track_data_'.$content['content_url']] = $this->mainmodel->getcontenttabbycontentitemid($content['content_item_id']);
-					$data['subscription_'.$content['content_url']] = 0;
-					if($this->bitauth->logged_in())
-					{
-						$data['subscription_'.$content['content_url']] = $this->mainmodel->checkattachmentsubscription($content['content_item_id'],$logged_details->kid);
-					}	
-				}
-			}
-		}
-
-		$data['content_data_primary'] = "";
-		$data['content_data_content'] = "";
-		$sync = "";
-
-		if($eventurl=="default")
-		{
-			$data['static_page_primary'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
-			$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
-
-			$sync = $data['static_page_primary'];
-			$sync1 = $data['static_page_image'];
-			$construct_array[0]['content_item_title'] = $sync[0]['static_page_title'];
-			$construct_array[0]['content_item_content'] = $sync[0]['static_page_content'];
-			$data['content_data_primary'][0] = array(
-					'content_title' => $construct_array[0]['content_item_title'],
-					'content_type' => "",
-					'content_item_sponsor_url' => "",
-					'content_item_id' => 0
-
-			);
-
-			$data['content_data_image'][0] = array (
-					'content_item_image_url' => $sync1[0]['static_page_image_url']
-				);
-
-			$data['content_data_sponsor'] = 0;
-
-			$data['content_data_content'][0] = array(
-				'content_item_tab_content' =>  $sync[0]['static_page_content'],
-				'content_item_tab_id' => $sync[0]['static_page_id'],
-				'content_item_tab_title' => $sync[0]['static_page_title'],
-			);
-
-			$data['tabbed'] = 0;
-		}
-		else
-		{
-			$data['content_data_primary'] = $this->mainmodel->getcontentitemtabsbycontentitemid($eventurl);
-			$data['content_data_image'] = $this->mainmodel->getcontentitemimagebycontentitemid($eventurl);
-			$data['content_data_sponsor'] = $this->mainmodel->getcontentitemsponsorbycontentitemid($eventurl);
-			$data['content_data_content'] = $this->mainmodel->getcontentitemtabdatabycontentitemid($eventurl);
-
-			if(trim($data['content_data_primary'][0]['content_type']) == "tabbed")
-				$data['tabbed'] = 1;
-			else
-				$data['tabbed'] = 0;
-		}
-		$data['sidebar'] = 1;
-		
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');			
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/footer');
 			$this->load->view('_template/head/body-end');
 			$this->load->view('_template/head/html-end');
-		}
 	}
 
-	public function workshops($workshopurl="default")
-	{
-		$data['title'] = "Workshops | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-		$data['profile_complete'] = 0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-
-        	if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        	{
-        		$data['profile_complete'] = 1;
-        	}
-		}
-
-		$data['system_type'] = 'workshops';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 1;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 0;
-
-		$data['subcategories'] = $this->mainmodel->getcontentsubcategories($data['system_type']);
-
-		if($data['subcategories'])
-		{
-			foreach ($data['subcategories'] as $subcategory) {
-				$data['content_'.$subcategory['content_subcategory']] = $this->mainmodel->getcontentitembysubcategories($subcategory['content_subcategory'],$data['system_type']);
-
-				foreach ($data['content_'.$subcategory['content_subcategory']] as $content) {
-					$data['track_data_'.$content['content_url']] = $this->mainmodel->getcontenttabbycontentitemid($content['content_item_id']);
-					$data['subscription_'.$content['content_url']] = 0;
-					if($this->bitauth->logged_in())
-					{
-						if((trim(strtolower($content['content_url'])) == "facebot") || (trim(strtolower($content['content_url'])) == "bluebot") || (trim(strtolower($content['content_url'])) == "c2000"))
-						{
-							$data['subscription_'.$content['content_url']] = $this->mainmodel->checkteamworkshopattachmentsubscription($content['content_item_id'],$logged_details->kid);
-						}
-						else
-						{
-							$data['subscription_'.$content['content_url']] = $this->mainmodel->checkworkshopattachmentsubscription($content['content_item_id'],$logged_details->kid);
-						}
-					}
-				}
-			}
-		}
-
-
-		if($workshopurl=="default")
-		{
-			$data['static_page_primary'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
-			$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
-
-			$sync = $data['static_page_primary'];
-			$sync1 = $data['static_page_image'];
-
-			$construct_array[0]['content_item_title'] = $sync[0]['static_page_title'];
-			$construct_array[0]['content_item_content'] = $sync[0]['static_page_content'];
-			$data['content_data_primary'][0] = array(
-					'content_title' => $construct_array[0]['content_item_title'],
-					'content_type' => "",
-					'content_item_sponsor_url' => "",
-					'content_item_id' => 0
-
-			);
-
-			$data['content_data_image'][0] = array (
-					'content_item_image_url' => $sync1[0]['static_page_image_url']
-				);
-
-			$data['content_data_sponsor'] = 0;
-
-			$data['content_data_content'][0] = array(
-				'content_item_tab_content' =>  $construct_array[0]['content_item_content'],
-				'content_item_tab_id' => $sync[0]['static_page_id'],
-				'content_item_tab_title' => $sync[0]['static_page_title'],
-			);
-
-			$data['tabbed'] = 0;
-		}
-		else
-		{
-			$data['content_data_primary'] = $this->mainmodel->getcontentitemtabsbycontentitemid($workshopurl);
-			$data['content_data_image'] = $this->mainmodel->getcontentitemimagebycontentitemid($workshopurl);
-			$data['content_data_sponsor'] = $this->mainmodel->getcontentitemsponsorbycontentitemid($workshopurl);
-			$data['content_data_content'] = $this->mainmodel->getcontentitemtabdatabycontentitemid($workshopurl);
-
-			if(trim($data['content_data_primary'][0]['content_type']) == "tabbed")
-				$data['tabbed'] = 1;
-			else
-				$data['tabbed'] = 0;
-		}
-		$data['sidebar'] = 1;
-		
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');			
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function lectures($lecturesurl="default")
-	{
-		$data['title'] = "Lectures | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-		$data['profile_complete'] = 0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-
-        	if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        	{
-        		$data['profile_complete'] = 1;
-        	}
-
-		}
-
-		$data['system_type'] = 'lectures';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 1;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 0;
-
-		$data['subcategories'] = $this->mainmodel->getcontentsubcategories($data['system_type']);
-
-		if($data['subcategories'])
-		{
-			foreach ($data['subcategories'] as $subcategory) {
-				$data['content_'.$subcategory['content_subcategory']] = $this->mainmodel->getcontentitembysubcategories($subcategory['content_subcategory'],$data['system_type']);
-
-				foreach ($data['content_'.$subcategory['content_subcategory']] as $content) {
-					$data['track_data_'.$content['content_url']] = $this->mainmodel->getcontenttabbycontentitemid($content['content_item_id']);
-					$data['subscription_'.$content['content_url']] = 0;
-					if($this->bitauth->logged_in())
-					{
-						$data['subscription_'.$content['content_url']] = $this->mainmodel->checkattachmentsubscription($content['content_item_id'],$logged_details->kid);
-					}
-				}
-			}
-		}
-
-
-		if($lecturesurl=="default")
-		{
-			$data['static_page_primary'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
-			$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
-
-			$sync = $data['static_page_primary'];
-			$sync1 = $data['static_page_image'];
-
-			$construct_array[0]['content_item_title'] = $sync[0]['static_page_title'];
-			$construct_array[0]['content_item_content'] = $sync[0]['static_page_content'];
-			$data['content_data_primary'][0] = array(
-					'content_title' => $construct_array[0]['content_item_title'],
-					'content_type' => "",
-					'content_item_sponsor_url' => "",
-					'content_item_id' => 0
-
-			);
-
-			$data['content_data_image'][0] = array (
-					'content_item_image_url' => $sync1[0]['static_page_image_url']
-				);
-
-			$data['content_data_sponsor'] = 0;
-
-			$data['content_data_content'][0] = array(
-				'content_item_tab_content' =>  $construct_array[0]['content_item_content'],
-				'content_item_tab_id' => $sync[0]['static_page_id'],
-				'content_item_tab_title' => $sync[0]['static_page_title'],
-			);
-
-			$data['tabbed'] = 0;
-		}
-		else
-		{
-			$data['content_data_primary'] = $this->mainmodel->getcontentitemtabsbycontentitemid($lecturesurl);
-			$data['content_data_image'] = $this->mainmodel->getcontentitemimagebycontentitemid($lecturesurl);
-			$data['content_data_sponsor'] = $this->mainmodel->getcontentitemsponsorbycontentitemid($lecturesurl);
-			$data['content_data_content'] = $this->mainmodel->getcontentitemtabdatabycontentitemid($lecturesurl);
-
-			if(trim($data['content_data_primary'][0]['content_type']) == "tabbed")
-				$data['tabbed'] = 1;
-			else
-				$data['tabbed'] = 0;
-		}
-		$data['sidebar'] = 1;
-		
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');			
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function sponsors($sponsorsurl="2014")
-	{
-		$data['title'] = "Sponsors | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-		$data['profile_complete'] = 0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-
-        	if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        	{
-        		$data['profile_complete'] = 1;
-        	}
-		}
-
-		$data['system_type'] = 'sponsors';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 1;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 0;
-
-		$data['avenues'] = array(
-				'cosponsor' => "Co-Sponsor",
-				'event' => "Events Sponsor",
-				'barkamp' => "Barkamp Sponsor",
-				'guestlectures' => "Guest Lectures",
-				'telephone' => "Telephone",
-				'accomdation' => "Accomdation",
-				'title' => "Title",
-				'hospitality' => "Hospitality",
-				'travel' => "Travel",
-				'marketing' => "Marketing",
-				'onlinemarketing' => "Online Marketing",
-				'awareness' => "Awareness",
-				'eshopping' => "E-shopping",
-				'multiplex' => "Multiplex",
-				'youth' => "Youth",
-				'innovation' => "Innovation",
-				'studentoppurtunity' => "Student Oppurtunity",
-				'photography' => "Photography",
-				'videocoverage' => "Video Coverage",
-				'technology' => "Technology",
-				'outreach' => "Outreach",
-				'promotional' => "Promotional",
-				'food' => "Food",
-				'transportation' => "Transportation",
-				'courier' => "Courier",
-				'logistics' => "Logistics",
-				'printing' => "Printing",
-				'tshirt' => "T-shirt",
-				'guestfood' => "Guest Food"
-			);
-
-		$data['sponsors'] = $this->mainmodel->sponsorsyear();
-		$sponsor['sponsor_year'] = $sponsorsurl;
-		$data['sponsor_year'] =  $sponsorsurl;
-
-
-
-        $data['getcategories_'.$sponsor['sponsor_year']] = $this->mainmodel->sponsorcategory($sponsor['sponsor_year']);
-       	if($data['getcategories_'.$sponsor['sponsor_year']])
-       	{
-       		foreach ($data['getcategories_'.$sponsor['sponsor_year']] as $category) {
-       			$data['track_sponsor_'.$category['sponsor_category']] = $this->mainmodel->getsponsorbysponsorcategory($category['sponsor_category'],$sponsor['sponsor_year']);
-       		}
-       	}
-
-
-
-
-    	if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);	
-			$this->load->view('_template/basic/section-start');		
-			$this->load->view('content/content-sponsor-page-holder',$data);
-			$this->load->view('content/content-sponsor-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-sponsor-page-holder',$data);
-			$this->load->view('content/content-sponsor-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function xceed($xceedurl="default")
-	{
-		$data['title'] = "XCEED | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-		$data['profile_complete'] = 0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-
-        	if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        	{
-        		$data['profile_complete'] = 1;
-        	}
-		}
-
-		$data['system_type'] = 'xceed';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 1;
-		
-
-		// $data['accordionmenu'] = $this->mainmodel->getdistinctxceedurl();
-
-		// if($data['accordionmenu'])
-		// {
-		// 	foreach ($data['accordionmenu'] as $a) {
-		// 		$data['sidebar_'.$a['xceed_url']] = $this->mainmodel->getxceedbyxceedurl($a['xceed_url']);
-		// 	}
-		// }
-
-		// $data['xceed_data_image'] = 0;
-		// $data['xceed_data_content'] = $this->mainmodel->getxceedbyxceedurl($xceedurl);
-
-		$data['subcategories'] = $this->mainmodel->getcontentsubcategories($data['system_type']);
-
-		if($data['subcategories'])
-		{
-			foreach ($data['subcategories'] as $subcategory) {
-				$data['content_'.$subcategory['content_subcategory']] = $this->mainmodel->getcontentitembysubcategories($subcategory['content_subcategory'],$data['system_type']);
-
-				foreach ($data['content_'.$subcategory['content_subcategory']] as $content) {
-					$data['track_data_'.$content['content_url']] = $this->mainmodel->getcontenttabbycontentitemid($content['content_item_id']);
-					$data['subscription_'.$content['content_url']] = 0;
-					if($this->bitauth->logged_in())
-					{
-						$data['subscription_'.$content['content_url']] = $this->mainmodel->checkattachmentsubscription($content['content_item_id'],$logged_details->kid);
-					}
-				}
-			}
-		}
-
-
-		if($xceedurl=="default")
-		{
-			$data['static_page_primary'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
-			$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
-
-			$sync = $data['static_page_primary'];
-			$sync1 = $data['static_page_image'];
-
-			$construct_array[0]['content_item_title'] = $sync[0]['static_page_title'];
-			$construct_array[0]['content_item_content'] = $sync[0]['static_page_content'];
-			$data['content_data_primary'][0] = array(
-					'content_title' => $construct_array[0]['content_item_title'],
-					'content_type' => "",
-					'content_item_sponsor_url' => "",
-					'content_item_id' => 0
-
-			);
-
-			$data['content_data_image'][0] = array (
-					'content_item_image_url' => $sync1[0]['static_page_image_url']
-				);
-
-			$data['content_data_sponsor'] = 0;
-
-			$data['content_data_content'][0] = array(
-				'content_item_tab_content' =>  $construct_array[0]['content_item_content'],
-				'content_item_tab_id' => $sync[0]['static_page_id'],
-				'content_item_tab_title' => $sync[0]['static_page_title'],
-			);
-
-			$data['tabbed'] = 0;
-		}
-		else
-		{
-			$data['content_data_primary'] = $this->mainmodel->getcontentitemtabsbycontentitemid($xceedurl);
-			$data['content_data_image'] = $this->mainmodel->getcontentitemimagebycontentitemid($xceedurl);
-			$data['content_data_sponsor'] = $this->mainmodel->getcontentitemsponsorbycontentitemid($xceedurl);
-			$data['content_data_content'] = $this->mainmodel->getcontentitemtabdatabycontentitemid($xceedurl);
-
-			if(trim($data['content_data_primary'][0]['content_type']) == "tabbed")
-				$data['tabbed'] = 1;
-			else
-				$data['tabbed'] = 0;
-		}
-		$data['sidebar'] = 1;
-
-		
-
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);			
-			$this->load->view('_template/basic/section-start');
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function hospitality($hospitalityurl="hospitality")
-	{
-		$data['title'] = "Hospitality | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-		}
-
-		$data['system_type'] = 'hospitality';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 1;
-		
-
-		$data['accordionmenu'] = $this->mainmodel->getdistincthospitalityurl();
-
-		if($data['accordionmenu'])
-		{
-			foreach ($data['accordionmenu'] as $a) {
-				$data['sidebar_'.$a['hospitality_url']] = $this->mainmodel->gethospitalitybyhospitalityurl($a['hospitality_url']);
-			}
-		}
-
-		$data['hospitality_data_image'] = 0;
-		$data['hospitality_data_content'] = $this->mainmodel->gethospitalitybyhospitalityurl($hospitalityurl);
-
-		
-
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);			
-			$this->load->view('_template/basic/section-start');
-			$this->load->view('content/content-hospitality-page-holder',$data);
-			$this->load->view('content/content-hospitality-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-hospitality-page-holder',$data);
-			$this->load->view('content/content-hospitality-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function karnival($karnivalurl="karnival")
-	{
-		$data['title'] = "Hospitality | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-		}
-
-		$data['system_type'] = 'karnival';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 1;
-		
-
-		$data['accordionmenu'] = $this->mainmodel->getdistinctkarnivalurl();
-
-		if($data['accordionmenu'])
-		{
-			foreach ($data['accordionmenu'] as $a) {
-				$data['sidebar_'.$a['karnival_url']] = $this->mainmodel->getkarnivalbykarnivalurl($a['karnival_url']);
-			}
-		}
-
-		$data['karnival_data_image'] = 0;
-		$data['karnival_data_content'] = $this->mainmodel->getkarnivalbykarnivalurl($karnivalurl);
-
-		
-
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);			
-			$this->load->view('_template/basic/section-start');
-			$this->load->view('content/content-karnival-page-holder',$data);
-			$this->load->view('content/content-karnival-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-karnival-page-holder',$data);
-			$this->load->view('content/content-karnival-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function about($abouturl="k2014")
-	{
-		$data['title'] = "About Us | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-		}
-
-		$data['system_type'] = 'about';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 1;
-		$data['nav6'] = 0;
-		$data['nav7'] = 0;
-		
-
-		$data['accordionmenu'] = $this->mainmodel->getdistinctabouturl();
-
-		if($data['accordionmenu'])
-		{
-			foreach ($data['accordionmenu'] as $a) {
-				$data['sidebar_'.$a['about_url']] = $this->mainmodel->getaboutbyabouturl($a['about_url']);
-			}
-		}
-
-		$data['about_data_image'] = 0;
-		$data['about_data_content'] = $this->mainmodel->getaboutbyabouturl($abouturl);
-
-		
-
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);			
-			$this->load->view('_template/basic/section-start');
-			$this->load->view('content/content-about-page-holder',$data);
-			$this->load->view('content/content-about-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-about-page-holder',$data);
-			$this->load->view('content/content-about-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function contact($contacturl="default")
-	{
-		$data['title'] = "Contact Us | Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-		}
-
-		$data['system_type'] = 'contact';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 1;
-		$data['nav7'] = 0;
-
-
-
-		$data['accordionmenu'] = $this->mainmodel->getlimitedcontacts();
-
-		$data['team'] = array(
-			'qms' => "Queries & Info",
-			'events' => "Events",
-			'workshops' => "Workshops",
-			'lectures' => "Guest Lectures",
-			'xceed' => "XCEED",
-			'ir' => "Industry Relations",
-			'hospitality' => "Hospitality",
-			'media' => "Media",
-			'tech' => "Virtual Participation",
-			'web' => "Web",
-			'karnival' => "Karnival",
-			'marketing' => "Student Relations"
-		);
-
-		$data['mail'] = array(
-			'qms' => "helpdesk@kurukshetra.org.in",
-			'events' => "events@kurukshetra.org.in",
-			'workshops' => "workshop@kurukshetra.org.in",
-			'lectures' => "guestlectures@kurukshetra.org.in",
-			'xceed' => "xceed@kurukshetra.org.in",
-			'ir' => "industryrelations@kurukshetra.org.in",
-			'hospitality' => "hospidesk@kurukshetra.org.in",
-			'media' => "media@kurukshetra.org.in",
-			'tech' => "techteam@kurukshetra.org.in",
-			'web' => "kweb@kurukshetra.org.in",
-			'karnival' => "karnival@kurukshetra.org.in",
-			'marketing' => "pr@kurukshetra.org.in"
-		);
-
-
-
-
-
-		foreach($data['team'] as $a => $v)
-		{
-			$data['team_'.$a] = $this->mainmodel->getbyoneeachteam($a);
-		}
-
-		if($data['accordionmenu'])
-		{
-			foreach ($data['accordionmenu'] as $a) {
-				$data['sidebar_'.$a['team']] = $this->mainmodel->getcontactbycontacturl($a['team']);
-			}
-		}
-
-		if($contacturl=="default")
-		{
-			$data['mailing'] = 1;
-			$data['limited_contacts'] = $this->mainmodel->getlimitedcontactscontent();
-			$data['contact_data_content'] = 0;
-		}
-		else
-		{
-			$data['mailing'] = 0;
-			$data['contact_data_content'] = $this->mainmodel->getcontactbycontacturl($contacturl);
-		}
-
-		
-
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);		
-			$this->load->view('_template/basic/section-start');	
-			$this->load->view('content/content-contact-page-holder',$data);
-			$this->load->view('content/content-contact-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-contact-page-holder',$data);
-			$this->load->view('content/content-contact-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function general($generalurl="default")
-	{
-		$data['title'] = "Kurukshetra 2014 | The Battle of Brains";
-		$data['logged_in'] = 0;
-		$data['log']=0;
-		$data['profile_complete'] = 0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-
-        	if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        	{
-        		$data['profile_complete'] = 1;
-        	}
-        	if($generalurl == "hospitality")
-			{
-				$data['hospicontent'] = $this->mainmodel->checkhospiexists($logged_details->kid);
-			}
-		}
-
-		$data['system_type'] = 'special';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 0;
-		
-
-		// $data['accordionmenu'] = $this->mainmodel->getdistinctxceedurl();
-
-		// if($data['accordionmenu'])
-		// {
-		// 	foreach ($data['accordionmenu'] as $a) {
-		// 		$data['sidebar_'.$a['xceed_url']] = $this->mainmodel->getxceedbyxceedurl($a['xceed_url']);
-		// 	}
-		// }
-
-		// $data['xceed_data_image'] = 0;
-		// $data['xceed_data_content'] = $this->mainmodel->getxceedbyxceedurl($xceedurl);
-
-		$data['subcategories'] = $this->mainmodel->getspecialcontentsubcategories($data['system_type']);
-
-		if($data['subcategories'])
-		{
-			foreach ($data['subcategories'] as $subcategory) {
-				$data['content_'.$subcategory['content_subcategory']] = $this->mainmodel->getspecialcontentitembysubcategories($subcategory['content_subcategory'],$data['system_type']);
-
-				foreach ($data['content_'.$subcategory['content_subcategory']] as $content) {
-					$data['track_data_'.$content['content_url']] = $this->mainmodel->getcontenttabbycontentitemid($content['content_item_id']);
-					$data['subscription_'.$content['content_url']] = 0;
-					if($this->bitauth->logged_in())
-					{
-						$data['subscription_'.$content['content_url']] = 0;//$this->mainmodel->checkattachmentsubscription($content['content_item_id'],$logged_details->kid);
-					}
-				}
-			}
-		}
-
-
-		if($generalurl=="default")
-		{
-			$data['static_page_primary'] = $this->mainmodel->getstaticpagetabsbystaticpageid($data['system_type']);
-			$data['static_page_image'] = $this->mainmodel->getstaticpageimagebystaticpageid($data['system_type']);
-
-			$sync = $data['static_page_primary'];
-			$sync1 = $data['static_page_image'];
-
-			$construct_array[0]['content_item_title'] = $sync[0]['static_page_title'];
-			$construct_array[0]['content_item_content'] = $sync[0]['static_page_content'];
-			$data['content_data_primary'][0] = array(
-					'content_title' => $construct_array[0]['content_item_title'],
-					'content_type' => "",
-					'content_item_sponsor_url' => "",
-					'content_item_id' => 0
-
-			);
-
-			$data['content_data_image'][0] = array (
-					'content_item_image_url' => $sync1[0]['static_page_image_url']
-				);
-
-			$data['content_data_sponsor'] = 0;
-
-			$data['content_data_content'][0] = array(
-				'content_item_tab_content' =>  $construct_array[0]['content_item_content'],
-				'content_item_tab_id' => $sync[0]['static_page_id'],
-				'content_item_tab_title' => $sync[0]['static_page_title'],
-			);
-
-			$data['tabbed'] = 0;
-		}
-		else
-		{
-			$data['content_data_primary'] = $this->mainmodel->getcontentitemtabsbycontentitemid($generalurl);
-			$data['content_data_image'] = $this->mainmodel->getcontentitemimagebycontentitemid($generalurl);
-			$data['content_data_sponsor'] = $this->mainmodel->getcontentitemsponsorbycontentitemid($generalurl);
-			$data['content_data_content'] = $this->mainmodel->getcontentitemtabdatabycontentitemid($generalurl);
-
-			if(trim($data['content_data_primary'][0]['content_type']) == "tabbed")
-				$data['tabbed'] = 1;
-			else
-				$data['tabbed'] = 0;
-		}
-
-		$data['sidebar'] = 3;
-		if($generalurl == "hospitality")
-		{
-			$data['sidebar'] = 4;
-		}
-
-		
-
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);			
-			$this->load->view('_template/basic/section-start');
-			$this->load->view('content/content-page-holder',$data);
-			$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			//$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			//$this->load->view('content/content-page-holder',$data);
-			//$this->load->view('content/content-sidebar-navigation',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-	}
-
-	public function profile($username=null)
-	{
-		$data['title'] = "Profile | Kurukshetra 2014 | The Battle of Brains";
-		$data['profile_complete'] = 0;
-
-		$data['system_type'] = 'special';
-		$data['updates'] = $this->mainmodel->getupdates();
-		$data['nav0'] = 0;
-		$data['nav1'] = 0;
-		$data['nav2'] = 0;
-		$data['nav3'] = 0;
-		$data['nav4'] = 0;
-		$data['nav5'] = 0;
-		$data['nav6'] = 0;
-		$data['nav7'] = 0;
-
-
-        $data['colleges'] = $this->mainmodel->getlistofcollege();
-        $data['degrees'] = $this->mainmodel->getlistofdegree();
-        $data['courses'] = $this->mainmodel->getlistofcourse();
-
-        $data['logged_in'] = 0;
-        $data['saclaim'] = 0;
-
-		if($this->bitauth->logged_in())
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-        	$ret=$this->session->all_userdata();
-        	$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        	$data['log']=$logged_details;
-        	// echo '<pre>';
-        	// print_r($data['log']);
-        	// echo '</pre>';
-        	////////////////////////////////////////END OF SESSION DETAILS
-        	$data['logged_in'] = 1;
-
-        	$username = $logged_details->kid;
-        	$profilename = $logged_details->profilename;
-        	if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        	{
-        		$data['profile_complete'] = 1;
-        	}
-
-        	$data['saclaim'] = $this->mainmodel->checkclaimsastatus($logged_details->kid);
-		}
-		else
-		{
-			show_404();
-		}
-
-		if($username)
-		{
-
-		}
-		else
-		{
-			show_404();
-		}
-
-		$data['sidebar'] = 2;
-		
-		if (isset($_SERVER["HTTP_X_PJAX"])) {
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');			
-			$this->load->view('content/content-profile-page',$data);
-			$this->load->view('_template/basic/section-end');
-		} else {
-			$this->load->view('_template/head/doctype');
-			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$this->load->view('_template/head/title',$data);
-			$this->load->view('_template/head/styles');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-end');
-			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/container-start');
-			$this->load->view('_template/basic/header');
-			$this->load->view('_template/basic/pjax-start');
-			$this->load->view('_template/basic/navigation',$data);
-			$this->load->view('_template/basic/section-start');
-			//$this->load->view('_template/basic/main',$data);
-			$this->load->view('content/content-profile-page',$data);
-			$this->load->view('_template/basic/section-end');
-			$this->load->view('_template/basic/container-end');
-			$this->load->view('_template/basic/pjax-end');
-			$this->load->view('_template/basic/footer');
-			$this->load->view('_template/head/body-end');
-			$this->load->view('_template/head/html-end');
-		}
-
-	}
-
-	public function k_attachment()
-	{
-		$response = "";
-
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('error' => "<p>Not Logged In</p>" ));
-		}
-		else
-		{
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-	        $ret=$this->session->all_userdata();
-	        $logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-	        $data['log']=$logged_details;
-	        // echo '<pre>';
-	        // print_r($data['log']);
-	        // echo '</pre>';
-	        ////////////////////////////////////////END OF SESSION DETAILS
-	        $data['logged_in'] = 1;
-
-	        $username = $logged_details->kid;
-	        $profilename = $logged_details->profilename;
-
-			if($this->input->post())
-			{
-				if($logged_details->fullname != null || $logged_details->gender != null || $logged_details->semester != null || $logged_details->degree != null || $logged_details->course != null || $logged_details->institution != null || $logged_details->contactno != null)
-				{
-					$data['checkifexists'] = $this->mainmodel->checkattachmentexistsforuserid();
-
-					if($data['checkifexists'])
-					{
-						$response = array('status' => 1, 'response' => array('error' => "<p>You have already registered for this event</p>" ));
-					}
-					else
-					{
-						$data['pushattachment'] = $this->mainmodel->pushattachmentsubscription();
-						$response = array('status' => 2, 'response' => array('success' => "<p>Thank you for registering</p>" ));				
-					}
-				}
-				else
-				{
-					$response = array('status' => 3, 'response' => array('error' => "<p>Profile not complete</p>" ) );
-				}
-			}
-
-    	}
-
-		echo json_encode($response);
-	}
-
-	public function k_workshop_attachment()
-	{
-		$response = "";
-
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('error' => "<p>Not Logged In</p>" ));
-		}
-		else
-		{
-
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-	        $ret=$this->session->all_userdata();
-	        $logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-	        $data['log']=$logged_details;
-	        // echo '<pre>';
-	        // print_r($data['log']);
-	        // echo '</pre>';
-	        ////////////////////////////////////////END OF SESSION DETAILS
-	        $data['logged_in'] = 1;
-
-	        $username = $logged_details->kid;
-	        $profilename = $logged_details->profilename;
-
-			if($this->input->post())
-			{
-				if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        		{
-					$data['checkifexists'] = $this->mainmodel->checkworkshopattachmentexistsforuserid();
-
-
-					if($data['checkifexists'])
-					{
-						$response = array('status' => 1, 'response' => array('error' => "<p>You have already registered for this event</p>" ));
-					}
-					else
-					{
-						$data['pushattachment'] = $this->mainmodel->pushworkshopattachmentsubscription();
-						$response = array('status' => 2, 'response' => array('success' => "<p>Your response has been recorded. Please wait for approval from the workshop team.</p>" ));				
-					}
-				}
-				else
-				{
-					$response = array('status' => 3, 'response' => array('error' => "<p>Profile not complete</p>" ) );
-				}
-
-			}
-		}
-
-		echo json_encode($response);
-	}
-
-	public function k_team_workshop_attachment()
-	{
-		$response = "";
-
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('error' => "<p>Not Logged In</p>" ));
-		}
-		else
-		{
-
-			// $this->session->set_userdata('redir', current_url());
-			// redirect('auth/login');
-			///////////////////////////////////////////////SESSION DETAILS
-	        $ret=$this->session->all_userdata();
-	        $logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-	        $data['log']=$logged_details;
-	        // echo '<pre>';
-	        // print_r($data['log']);
-	        // echo '</pre>';
-	        ////////////////////////////////////////END OF SESSION DETAILS
-	        $data['logged_in'] = 1;
-
-	        $username = $logged_details->kid;
-	        $profilename = $logged_details->profilename;
-
-			if($this->input->post())
-			{
-				
-				if(trim(strtolower($this->input->post('workshopurl'))) == "facebot" || trim(strtolower($this->input->post('workshopurl'))) == "bluebot")
-				{
-					if($this->input->post('kid2') == "" || $this->input->post('kid3') == "")
-					{
-						$response = array('status' => 4, 'response' => array('error' => "<p>Minimum Participation of 3 in a team for 3D Printing</p>" ));
-					}
-				}
-				else if(trim(strtolower($this->input->post('workshopurl'))) == "c2000")
-				{
-					if($this->input->post('kid2') == "")
-					{
-						$response = array('status' => 5, 'response' => array('error' => "<p>Minimum Participation of 2 in a team for C2000</p>" ));
-					}
-				}
-				
-				if($logged_details->fullname != null && $logged_details->gender != null && $logged_details->semester != null && $logged_details->degree != null && $logged_details->course != null && $logged_details->institution != null && $logged_details->contactno != null)
-        		{
-					$data['checkifexists'] = $this->mainmodel->checkteamworkshopattachmentexistsforuserid();
-
-					if($data['checkifexists'])
-					{
-						$response = array('status' => 1, 'response' => array('error' => "<p>You have already registered for this event</p>" ));
-					}
-					else
-					{
-						$data['pushattachment'] = $this->mainmodel->pushteamworkshopattachmentsubscription();
-						$response = array('status' => 2, 'response' => array('success' => "<p>Your response has been recorded. Please wait for approval from the workshop team.</p>" ));				
-					}
-				}
-				else
-				{
-					$response = array('status' => 3, 'response' => array('error' => "<p>Profile not complete</p>" ) );
-				}
-
-			}
-		}
-
-		echo json_encode($response);
-	}
-
-	public function k_college_list()
-	{
-
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('error' => "<p>Not Logged In</p>" ));
-		}
-
-		if($this->input->get())
-		{
-			$data['list'] = $this->mainmodel->getlistofcollege();
-		}
-
-		
-		echo json_encode($data['list']);
-	}
-
-
-	public function k_course_list()
-	{
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('error' => "<p>Not Logged In</p>" ));
-		}
-
-		$data['list'] = $this->mainmodel->getlistofcourse();
-		echo json_encode($data['list']);
-	}
-
-	public function k_degree_list()
-	{
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('error' => "<p>Not Logged In</p>" ));
-		}
-
-		$data['list'] = $this->mainmodel->getlistofdegree();
-		echo json_encode($data['list']);
-	}
-
-	public function k_profile_update()
-	{
-		$response = "";
-
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('message' => "<p>Not Logged In</p>"));
-		}
-
-		if($this->input->post())
-		{
-			if($this->mainmodel->updateprofile())
-			{
-				$response = array('status' => 1, 'response' => array('message' => "<p>Profile has been updated successfully</p>"));
-			}
-			else
-			{
-				$response = array('status' => 2, 'response' => array('message' => "<p>Profile has not updated</p>"));
-			}
-		}
-
-		echo json_encode($response);
-	}
-
-	public function k_sa_register()
-	{
-		$response = "";
-
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('message' => "<p>Not Logged In</p>"));
-		}
-
-		if($this->input->post())
-		{
-			if($this->mainmodel->claimsa())
-			{
-				$response = array('status' => 1, 'response' => array('message' => "<p>Successfully Registered for SA</p>"));
-			}
-			else
-			{
-				$response = array('status' => 2, 'response' => array('message' => "<p>Failed to register for SA</p>"));
-			}
-		}
-
-		echo json_encode($response);
-	}
-
-	public function k_get_ambassador()
-	{
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('message' => "<p>Not Logged In</p>"));
-		}
-
-		if($this->input->post())
-		{
-			$data['stuamb'] = $this->mainmodel->getstudentambassadorbycollegename();
-			$this->load->view('content/content-student-ambassador',$data);
-		}
-	}
-
-	public function k_hospitality_register()
-	{
-		if(!$this->bitauth->logged_in())
-		{
-			$response = array('status' => 0, 'response' => array('message' => "<p>Not Logged In</p>"));
-		}
-
-		if($this->input->post())
-		{
-			if($this->mainmodel->claimhospi())
-			{
-				if($this->mainmodel->sendhospimail())
-					$response = array('status' => 1, 'response' => array('message' => "<p>Successfully Registered for Hospitality</p>"));
-			}
-			else
-			{
-				$response = array('status' => 2, 'response' => array('message' => "<p>Failed to register for Hospitality</p>"));
-			}
-		}
-
-		echo json_encode($response);
-	}
 	public function ros_register()
 	{
 		if($this->bitauth->logged_in())
@@ -1752,7 +129,7 @@ class Main extends CI_Controller {
 	}
 	else
 	{
-		redirect('ros.kurkushetra.org.in');
+		redirect('www.kurkushetra.org.in/ros');
 	}
 }
 
@@ -1762,35 +139,49 @@ class Main extends CI_Controller {
 		if($this->bitauth->logged_in())
 		{
 			
+			
 			$data['logged_in']=1;
 			$ret=$this->session->all_userdata();
 			$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
 			$data['log'] =$logged_details;
 			$answer=$this->rosmodel->getanswer($this->input->post('level'));
+			
 			if(strcmp(strtolower($this->input->post('answer')),$answer)==0)
 				{
-					
-					$this->rosmodel->promote($this->input->post('level'), $logged_details->kid);
-									$this->ros('some');
-				}
+							
+        			$this->rosmodel->promote($this->input->post('level'), $logged_details->kid);
+					$this->ros('some');
+           		}
+			
 			else
-		{
+			{
 
+			$me=rand(5, 15);
+			$data['img']='meme'.$me.'.jpg';;
+			$data['title']="ROS";
 			$this->load->view('_template/head/doctype');
 			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$data['title']="ROS";
-			
+			$this->load->view('_template/basic/ros_meta');
 			$this->load->view('_template/head/styles');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/title',$data);
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-end');
+			$this->load->view('_template/head/body-start');
 			$this->load->view('_template/basic/ros_navigation',$data);
-			$data['img']="meme1.jpg";
 			$this->load->view('_template/basic/roswelcome',$data);
+			$this->load->view('_template/head/body-end');
+			$this->load->view('_template/head/html-end');
+			}
 		}
+		else
+		{
+			redirect(base_url());
 		}
+
+}
 		
-	}
+	
 	public function ros_level($url=null)
 	{
 		
@@ -1799,56 +190,273 @@ class Main extends CI_Controller {
 		$ret=$this->session->all_userdata();
 		$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
 		$data['log']=$logged_details;
-		$level=$this->rosmodel->getLevel($logged_details->kid);
-		switch($level)
-			{
+
+		
+				
+				$level=$this->rosmodel->getLevel($logged_details->kid);
+				$data['level']=$level;
+				switch($level)
+				{
 				case 1:$data['level']=1;
-						$data['img']=array('101.jpg','102.jpg');
-						$data['pageclue']="";
-						
+						$data['img']=array('luigisbrother.jpg');
+						$data['pageclue']="The boot shaped country will help you find your way";
 						break;
 				case 2:$data['level']=2;
-						$data['img']=array('201.jpg');
-						$data['pageclue']="better known as?";
+						$data['img']=array('insidethe.jpg');
+						$data['pageclue']="Who is the dean?";
 						break;
 				case 3:$data['level']=3;
-						$data['img']=array('301.jpg','302.jpg','303.jpg');
-						$data['pageclue']="";
+						$data['img']=array('samenames.jpg');
+						$data['pageclue']="The first name is the last name and vice versa";
 						break;
 				case 4:$data['level']=4;
-						$data['img']=array('401.jpg','402.jpg');
-						$data['pageclue']="";
+						$data['img']=array('irespanol.jpg');
+						$data['pageclue']="Mod: You know sometimes it is difficult to make every thing required into clues :p";
 						break;
-				case 5:$data['level']=5;
-						$data['img']=array('501.jpg');
-						$data['pageclue']="that image";
+				case 5:$data['level']=5; 
+						$data['img']=array('part1.jpg', 'part2.jpg');
+						$data['pageclue']="Another name";
 						break;
 				case 6:$data['level']=6;
-						$data['img']=array('601.jpg','602.jpg','603.jpg','604.jpg','605.jpg');
-						$data['pageclue']="The pic with those names";
+						$data['img']=array('character.jpg');
+						$data['pageclue']="";
 						break;
 				case 7:$data['level']=7;
-						$data['img']=array('701.jpg');
-						$data['pageclue']="that image alone";
+						$data['img']=array('rebus.jpg');
+						$data['pageclue']="Something Similar";
 						break;
-				case  8:$data['level']=8;
+				case 8:$data['level']=8;
+						$data['img']=array('founder.jpg');
+						$data['pageclue']="9617 , 9618 , 9619 , 9620 , 9621 , 9622";
+						break;
+				case 9:$data['level']=9;
+						$data['img']=array('afdsfdaf.jpg','sdfsadfasf.jpg','dfsdfsdf.jpg');
+						$data['pageclue']="";
+						break;		
+				case 10:$data['level']=10;	
+						$data['img']=array('asfdsfsafdas.gif','asdfasfsdfsaf.jpg');
+						$data['pageclue']="";
+						break;
+				case 11:if(strcmp($url,'whatami.php')==0)
+						{
+						$data['level']=11;
+						$data['img']=array('sdfadsafssqw.jpg');
+						$data['pageclue']="";
+						}
+						elseif((strcmp($url,'auroraborealis.php')==0)||strcmp($url, 'auroraborealis')==0)
+						{
+						$data['level']=11;
+						$data['img']=array('sadfspodfk');
+						$data['pageclue']="";
+						}
+						break;
+				case 12:$data['level']=12;
+						$data['img']=array('sadfsldf.jpg','mnbxcv.jpg','asdfsdf.jpg','jasdfk.jpg');
+						$data['pageclue']="";
+						break;
+				case 13:$data['level']=13;
+						$data['img']=array('sketch.jpg');
+						$data['pageclue']="The ark of art";
+						break;
+				case 14:$data['level']=14;
+						$data['img']=array('zxcmvncxnmv.jpg','dyghdhd.png');
+						$data['pageclue']="A picture is worth thousand words";
+						break;
+				case 15:$data['level']=15;
+						
+						$data['pageclue']="The Sphinx says: Now let me tell you a story. Of all the mystical Japanese clans of the ancient age, none was more feared than Badhum clan. From this clan was born a the most powerful necromancer of all, named Yon . A conjurer of spirits , he was able to summon an army of a million white spirits to fight by his side , fending of all any enemy that dare attack his clan. But one day suddenly his magic went terribly wrong and his white spirits go rogue and start attacking their own master , killing him and wiping out his entire clan. Thus the story being said, find out what went wrong and you may pass." ;
+						break;
+				case 16:$data['level']=16;
+						$data['img']=array('anim.gif');
+						$data['pageclue']="Oracles of doomsday 2012";
+						break;
+				case 17:if(strcmp('level17.php',$url)==0)
+						{
+						$data['level']=17;
+						$data['img']=array('qweadfx.jpg','oerkjfkmxc.jpg');
+						$data['pageclue']="what is it??";
+						}
+						elseif (strcmp('ocarina.php', $url)==0) {
+								$data['level']=17;
+						$data['img']=array('dfkjsalf.jpg','nbxcmvbs.jpg');
+						$data['pageclue']="";
+						}
+						break;
+				case 18:$data['level']=18;
+						$data['img']=array('gsdgsdfgsd.jpg');
+						$data['pageclue']="";
+						break;
+				case 19:$data['level']=19;
+						$data['img']=array('dsfgerwqwe.jpg');
+						$data['pageclue']="273.6";
+						break;
+				case 20:$data['level']=20;
+						$data['img']=array('000080.jpg','ffff00.jpg');
+						$data['pageclue']="Treasure";
+						break;
+				case 21:$data['level']=21;
+						$data['img']=array('odfjokwel.jpg');
+						$data['pageclue']="Who does he travel with?";
+						break; 
+				case 22:if(strcmp($url,'level22.php')==0)
+						{
+						$data['level']=22;
+						$data['img']=array('safasfeww.jpg');
+						$data['pageclue']="Extremely Specific";
+						}
+						elseif(strcmp($url,'namcobandai.php')==0)
+						{
+							$data['level']=22;
+						$data['img']=array('adfasdfwe.jpg');
+						$data['pageclue']="";
+						}
+						break; 
+				case 23:$data['level']=23;
+						$data['img']=array('sowepas.jpg');
+						$data['pageclue']="RIP";
+						break;
+				case 24:$data['level']=24;
+						$data['img']=array('sdpweiuoqm.jpg');
+						$data['pageclue']="";
+						break;
+				case 25:$data['level']=25;
+						$data['img']=array('fp.jpg','flare.jpg','m.jpg');
+						$data['pageclue']="uti hfaa plpgufzkmau gop hksyanlpml oqlhsfzkm";
+						break;
+				case 26:$data['level']=26;
+						$data['img']=array('car.jpg');
+						$data['pageclue']="Man's deliberate malice answers seedy interest...What does he believe in though?";
+						break;
+				case 27:$data['level']=27;
+						$data['img']=array('somepeople.jpg');
+						$data['pageclue']="What happened in amity 9 years back? 13 years later, What was An dre fussing about";
+						break;
+				case 28:$data['level']=28;
+						$data['img']=array('xmnbcdsf.jpg');
+						$data['pageclue']="GR BRX PHDQ VOHHS RYHU? RN... EXW L JHW WR EH RQ WRS.";
+						break;
+				case 29:$data['level']=29;
+						$data['img']=array('adfawoefsd.jpg','vfsdfwe.jpg','!.jpg');
+						$data['pageclue']="Side Effects";
+						break;		
+				case 30:$data['level']=30;
+						$data['img']=array('connect.jpg');
+						$data['pageclue']="";
+						break;		
+				case 31:if(strcmp($url,'son.php')==0)
+						{
+						$data['level']=31;
+						$data['img']=array('mother.jpg','father.jpg');
+						$data['pageclue']="";
+						}
+						elseif (strcmp($url, 'sphinx.php')==0) {
+						$data['img']=array('callmemaybe.jpg','new.jpg');
+						$data['pageclue']="";
+						}
+						break;	
+				case 32:if(strcmp($url, 'kerge.php')==0)
+						{$data['level']=32;
+						$data['img']=array('1.gif','1a.jpg','1b.jpg','1c.png');
+						$data['pageclue']="";}
+						elseif(strcmp($url, 'mountolympus.php')==0)
+						{
+							$data['img']=array('slayer.jpg','move.jpg');
+						$data['pageclue']="";	
+						}
+						break;
+				case 33:$data['level']=33;
+						$data['img']=array('asdfqpeqwe.jpg','asdfasdf.jpg');
+						$data['pageclue']="Sixteen";
+						break;
+				case 34:$data['level']=34;
+						
+						$data['pageclue']="wsvapsfieshllqtbgrq";
+						break;
+				case 35:$data['level']=35;
+						$data['img']=array('adxczv.jpg','dqowelzds.jpg','hitler.jpg');
+						$data['pageclue']="My Master";
+						break;
+				case 36:$data['level']=36;
+						$data['img']=array('sport.jpg','cartoon.jpg','animechar.jpg');
+						$data['pageclue']="";
+						break;
+				case 37:if(strcmp($url, 'level37.php')==0)
+						{
+							$data['img']=array('nagato.jpg');
+						$data['pageclue']="The First I";
+						}
+						elseif (strcmp($url,'hagoromootsutsuki.php')==0) 
+						{
+						$data['level']=37;
+						$data['img']=array('6HVSN5.jpg');
+						$data['pageclue']="You already know the key";
+						}
+						break;
+			case 38:if(strcmp('name.php',$url)==0)
+					{
+						$data['img']=array('whoami.jpg');
+						$data['pageclue']="";
+					}
+					elseif (strcmp('tonystark.php',$url)==0) {
+						$data['img']=array('sadpqeww.jpg');
+						$data['pageclue']="Take the odd one out first";
+					}
+					break;
+			case 39:$data['level']=39;
+						$data['img']=array('hehelia.gif','birdie.jpg','made.jpg');
+						$data['pageclue']="";
+						break;
+			case 40:if(strcmp($url,'improvise.php')==0)
+					{
+						$data['level']=40;
+						$data['img']=array('singin.jpg');
+						$data['pageclue']="To my other favorite W.W";
+					}
+					elseif (strcmp('aclockworkorange.php',$url)==0) {
+						$data['img']=array('noclueshere.jpg');
+						$data['pageclue']="Power Rangers";
+						
+					}
+					elseif (strcmp($url, 'leavesofgrass.php')==0) {
+						$data['level']=40;
+						$data['img']=array('whose.jpg');
+						$data['pageclue']="Please sir, I want some more";
+					}
+						break;
+				case 41:$data['level']=41;
+						$data['img']=array('guy1.jpg','guy2.jpg','guy3.jpg','guy4.jpg');
+						$data['pageclue']="";
+						break;						
+				case 42:$data['level']=42;
+						$data['img']=array('barcode.png');
+						$data['pageclue']="";
+						break;
+				case 43:$data['level']=43;
 						$data['img']=array('success.jpg');
-						$data['succesnote']="Congrats ".$logged_details->kid." Keep tuned for the Main run";
+						$data['succesnote']="Congrats ".$logged_details->kid." tuned for the Main run";
 						break;
-
-			}
-			$data['logged_in']=1;
-		
+				}
+				
+				$data['logged_in']=1;		
+			
+			
+			$data['title']="ROS";
 			$this->load->view('_template/head/doctype');
 			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$data['title']="ROS";
-			
+			$this->load->view('_template/basic/ros_meta');
 			$this->load->view('_template/head/styles');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/title',$data);
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-end');
+			$this->load->view('_template/head/body-start');
 			$this->load->view('_template/basic/ros_navigation',$data);
 			$this->load->view('questions',$data);
+			$this->load->view('_template/head/body-end');
+			$this->load->view('_template/head/html-end');
+			
+			
+			
 		}
 		else
 		{
@@ -1862,30 +470,108 @@ class Main extends CI_Controller {
 		{
 		$ret=$this->session->all_userdata();
 		$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-		$level=$this->rosmodel->getLevel($logged_details->kid);
+		echo $logged_details->fullname;
+		$level=$this->rosmodel->getLevel($logged_details->kid,$logged_details->fullname);
+		//$level=$this->rosmodel->getLevel($logged_details->kid);
 		switch($level)
 			{
 				case 1:$data['level']=1;
-						$data['urlclue']='connect.php';
+						$data['urlclue']='henchmen.php';
 						break;
 				case 2:$data['level']=2;
-						$data['urlclue']='alter_ego';
+						$data['urlclue']='copresidents.php';
 						break;
-				case 3:$data['urlclue']='connect';
+				case 3:$data['urlclue']='level3.php';
 						break;
-				case 4:$data['urlclue']='level4.php';
+				case 4:$data['urlclue']='movie.php';
 						break;
-				case 5:$data['urlclue']='level5.php';
+				case 5:$data['urlclue']='rebus.php';
 						break;
-				case 6:$data['urlclue']='uk.php';
+				case 6:$data['urlclue']='level6.php';
 						break;
-				case 7:$data['urlclue']='level7.php';
+				case 7:$data['urlclue']='myth.php';
 						break;
-			}
+				case 8:$data['urlclue']='UMTASHEA.php';
+						break;
+				case 9:$data['urlclue']='number.php';
+						break;
+				case 10:$data['urlclue']='7891.php';
+						break;
+				case 11:$data['urlclue']='level11.php';
+						break;
+				case 12:$data['urlclue']='12.php';
+						break;	
+				case 13:$data['urlclue']='animals.php';
+						break;
+				case 14:$data['urlclue']='level14.php';
+						break;
+				case 15:$data['urlclue']='smokingkills.php';
+						break;
+				case 16:$data['urlclue']='flight.php';
+						break;
+				case 17:$data['urlclue']='level17.php';
+						break;
+				case 17:$data['urlclue']='ocarina.php';
+						break;
+				case 18:$data['urlclue']='type.php';
+						break;
+				case 19:$data['urlclue']='level19.php';
+						break;
+				case 20:$data['urlclue']='level20.php';
+						break;
+				case 21:$data['urlclue']='level21.php';
+						break;
+				case 22:$data['urlclue']='level22.php';
+						break;
+				case 23:$data['urlclue']='thefourthone.php';
+						break;
+				case 24:$data['urlclue']='level24.php';
+						break;
+				case 25:$data['urlclue']='level25.php';
+						break;	
+				case 26:$data['urlclue']='bonsoir.php';
+						break;
+				case 27:$data['urlclue']='thinkthink.php';
+						break;
+				case 28:$data['urlclue']='level28.php';
+						break;
+				case 29:$data['urlclue']='level29.php';
+						break;
+				case 30:$data['urlclue']='ajoyant.php';
+						break;
+				case 31:$data['urlclue']='son.php';
+						break;		
+				case 32:$data['urlclue']='kerge.php';
+						break;
+				
+				case 33:$data['urlclue']='level33.php';
+						break;	
+				case 34:$data['urlclue']='qkzmt.php';
+						break;		
+				case 35:$data['urlclue']='level35.php';
+						break;
+				case 36:$data['urlclue']='director.php';
+						break;
+				case 37:$data['urlclue']='level37.php';
+						break;
+				
+				case 38:$data['urlclue']='name.php';
+						break;
+				case 39:$data['urlclue']='level39.php';
+						break;
+				case 40:$data['urlclue']='improvise.php';
+						break;
+				case 41:$data['urlclue']='level41.php';
+						break;
+				case 42:$data['urlclue']='thisistheend.php';
+						break;
+				case 43:$data['urlclue']='lastlevel.php';
+						break;
 
+			}
 		
 			$url=base_url().'ros_level/'.$data['urlclue'];
-			//redirect($url);
+			redirect($url);
 		}
 		else
 			redirect(base_url());
@@ -1894,19 +580,76 @@ class Main extends CI_Controller {
 	public function instruction()
 	{
 			$data['logged_in']=0;
+			$data['title']="ROS|INSTRUCTION";
 			$this->load->view('_template/head/doctype');
 			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/head/scripts');
-			$this->load->view('_template/head/head-start');
-			$this->load->view('_template/head/meta-tags');
-			$data['title']="ROS";
+			$this->load->view('_template/basic/ros_meta');
 			$this->load->view('_template/head/styles');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/head/title',$data);
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-end');
+			$this->load->view('_template/head/body-start');
 			$this->load->view('_template/basic/ros_navigation',$data);
-			$this->load->view('_template/basic/ros_rules.php');
+			$this->load->view('_template/basic/ros_rules');
+			$this->load->view('_template/head/body-end');
+			$this->load->view('_template/head/html-end');
+			
+			
 	}
 	public function comments()
 	{
-			$data['logged_in']=0;
+			if($this->bitauth->logged_in())
+			{
+			$data['logged_in']=1;
+			$ret=$this->session->all_userdata();
+			$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
+			$data['log']=$logged_details;
+			$data['title']="ROS";
+			$level=$this->rosmodel->getLevel($logged_details->kid);	
+			$data['level']=$level;
+			$this->load->view('_template/head/doctype');
+			$this->load->view('_template/head/html-start');
+			$this->load->view('_template/head/scripts');
+			$this->load->view('_template/head/head-start');
+			$this->load->view('_template/basic/ros_meta');
+			$this->load->view('_template/head/styles');
+			$this->load->view('_template/basic/ros_navigation',$data);
+			$this->load->view('_template/basic/ros_comments.php',$data);
+			}
+			else
+				{
+					redirect(base_url());
+				}
+	}
+	public function leaderboard()
+	{
+		
+		
+		$result=$this->db->query('SELECT kid,level,name,college from ros_main ORDER BY level DESC,timestamp ASC LIMIT 0,15');
+
+		if($this->bitauth->logged_in())
+		{
+			$data['logged_in']=1;
+			$ret=$this->session->all_userdata();
+			$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
+			$data['log']=$logged_details;
+			$data['count']= $this->db->count_all('ros_main');
+			$rank=1;
+			$user_id=$this->db->query('SELECT * from ros_main ORDER BY level DESC,timestamp ASC');
+			//echo $count;
+			foreach($user_id->result() as $detail)
+				{
+					//echo strcmp($logged_details->kid,$detail->kid);
+					if(strcmp($logged_details->kid,$detail->kid)!=0)
+						{
+							$rank=$rank+1;
+						}
+				else
+					break;
+				}
+			$data['rank']=$rank;
+			$data['id']=$result->result();
 			$this->load->view('_template/head/doctype');
 			$this->load->view('_template/head/html-start');
 			$this->load->view('_template/head/scripts');
@@ -1915,6 +658,10 @@ class Main extends CI_Controller {
 			$data['title']="ROS";
 			$this->load->view('_template/head/styles');
 			$this->load->view('_template/basic/ros_navigation',$data);
-			$this->load->view('_template/basic/ros_comments.php');
+			$this->load->view('_template/basic/leader',$data);
+		}
+		else
+			redirect(base_url());
 	}
+
 }	
