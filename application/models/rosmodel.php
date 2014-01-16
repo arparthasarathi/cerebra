@@ -91,7 +91,9 @@ public function getques($kid)
 							
 			
 			$totalques=count($ques);
-			$code='<div class="col-md-6 col-md-offset-2">
+			$code='<h1 align="center">Welcome To Cerebra-14 !!></h1>
+			<h2 align="left">The contest consists of 30 questions of answering type.Give your answers in the box given below.The instructions are below
+			<ul><li>You will be awarded 3 points<div class="col-md-6 col-md-offset-2">
 			<h3 >Points : &nbsp' . $p . ' </h3> 
 			<h3 >Time remaining : &nbsp; 00:00:00</h3>
 	
@@ -119,14 +121,14 @@ public function getques($kid)
 			<input type="hidden" name="level" value="' .$u. '"/>
 			<br>' . $ques[$u] . '<br>
 			<br>
-			<input type="text" name="answer" id="t' . $u . '" class="span4" placeholder="Your Answer Here!!"/>
-			<button type="button" class="btn btn-primary" id="but'.$u.'" >Submit</button>
+			<input type="text" class="form-control span4" name="answer" id="t' . $u . '" placeholder="Your Answer Here!!"/>
+			<br><button type="submit" class="btn btn-primary btn-sm" id="but'.$u.'" >Submit</button>
 			</form>';
 								} 
 
 			else {
-						$code .= '<br><div clas="span4"><div class="well alert-success">
-						<b>Question ' . $u . '</b>
+						$code .= '<br><div clas="span4" ><div class="well alert-success round">
+									<b>Question ' . $u . '</b>
 									<div class="span4"><b>Attempts : </b>&nbsp;
 									<div id=athena_attempts_t' . $u . ' style="display:inline;">' . $qw[$u] . '</div></div>
 									<div class="span4"><div id=qc' . $u . ' style="display:inline;">

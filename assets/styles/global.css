@@ -1,6 +1,6 @@
 body
 {
-	background-image: url('../images/bg.jpg') ;
+	background-color:#9bb4cc;
 	background-size: 100% 100%;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -200,11 +200,14 @@ form[name="answer-form"] input:-ms-input-placeholder {
 {
 	background:transparent;
 	background-color: #98e698;
-	border:2px solid;
-	-moz-border-radius:5px;
-	border-radius:5px;
-
+		
 }
+.round
+{
+	border:2px;
+	border-radius:50px;
+}
+
 
 [name="loginform"] > input[type="email"], [name="loginform"] > input[type="password"] {
 	width: 100%;
