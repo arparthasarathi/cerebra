@@ -1,6 +1,6 @@
 $(function () {
 	
-	
+	var k_base_url = "http://kurukshetra.org.in/";
 
 	$(document).ready(function(){
 		
@@ -51,7 +51,7 @@ $(function () {
 		{
 			$.ajax ({
 				type: "POST",
-				url: base_url+"/auth/k_login",	
+				url: k_base_url+"/auth/k_login",	
 				data: formdata,		
 				cache: false,
 				success: function (data) {	
@@ -117,7 +117,7 @@ $(function () {
 
 		$.ajax ({
 				type: "POST",
-				url: base_url+"auth/k_logout",	
+				url: k_base_url+"auth/k_logout",	
 				data: formdata,		
 				cache: false,
 				success: function (data) {	
@@ -258,7 +258,7 @@ $(function () {
 
 		$.ajax ({
 				type: "POST",
-				url: base_url+"k_profile_update",	
+				url: k_base_url+"k_profile_update",	
 				data: formdata,		
 				cache: false,
 				success: function (data) {	
@@ -349,7 +349,7 @@ function KFBStore()
 
        	$.ajax ({
 				type: "POST",
-				url: base_url+"auth/k_fb",	
+				url: k_base_url+"auth/k_fb",	
 				data: formdata,		
 				cache: false,
 				success: function (data) {
