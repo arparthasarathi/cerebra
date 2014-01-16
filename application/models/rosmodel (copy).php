@@ -84,14 +84,14 @@ public function getques($kid)
 			}
 		}
 		
-		$ques= array("Not to be used","How many days are there in Feb?","What's your age and let me know  wat yu wat to do and just do it as u like before and continue with it as you want.","Days in leap Year??");						
+		$ques= array("Not to be used","What's your age","How many days are there in Feb?","Days in leap Year??");						
 				
 					
 
 							
 			
 			$totalques=count($ques);
-			$code='<div class="col-md-6 col-md-offset-2">
+			$code='<div class="row" ><div class="col-md-4 col-md-offset-4">
 			<h3 >Points : &nbsp' . $p . ' </h3> 
 			<h3 >Time remaining : &nbsp; 00:00:00</h3>
 	
@@ -113,24 +113,26 @@ public function getques($kid)
 				if (!$qa[$u]) {
 				$code .= '<br>
 				<b>Question ' . $u . '</b>&nbsp;&nbsp;
-				<div class="span6"><b>Attempts : </b>&nbsp;
-				<div style="display:inline;">' . $qw[$u] . '</div></div>
+				<b>Attempts : </b>&nbsp;
+				<div style="display:inline;">' . $qw[$u] . '</div>
 			<form name="unanswered' .$u. '" method="post" action="http://localhost/ros/index.php/submit">
 			<input type="hidden" name="level" value="' .$u. '"/>
 			<br>' . $ques[$u] . '<br>
 			<br>
-			<input type="text" name="answer" id="t' . $u . '" class="span4" placeholder="Your Answer Here!!"/>
-			<button type="button" class="btn btn-primary" id="but'.$u.'" >Submit</button>
-			</form>';
+			<input type="text" name="answer" id="t' . $u . '" cols="50" rows="2"/>
+			<button type="button" class="btn btn-primary" id="but'.$u.'" data-loading-text="Checking...">Submit</button>
+			<div id="athena_verify' . $u . '" style="display:inline;"></div><br>
+			<div id=qs' . $u . '></div></form>';
 								} 
 
 			else {
-						$code .= '<br><div clas="span4"><div class="well alert-success">
-						<b>Question ' . $u . '</b>
+						$code .= '<br><div class="row"><div class="well alert-success">
+						<div class="row"><div clas="span4">
+						<b>Question ' . $u . '</b></div>
 									<div class="span4"><b>Attempts : </b>&nbsp;
 									<div id=athena_attempts_t' . $u . ' style="display:inline;">' . $qw[$u] . '</div></div>
 									<div class="span4"><div id=qc' . $u . ' style="display:inline;">
-									<strong>Answered Correctly!</strong></div><div id=qs' . $u . '></div></div></div></div>';
+									<strong>Answered Correctly!</strong></div><div id=qs' . $u . '></div>';
 								}
 					}
 					

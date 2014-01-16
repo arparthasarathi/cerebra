@@ -1,12 +1,13 @@
 body
 {
-	background-image: url('../images/bg.jpg');
+	background-image: url('../images/bg.jpg') ;
 	background-size: 100% 100%;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	color: #FFF;
-	font-family: 'UglyQua';
+	color: #000;
+	font-family: 'Roboto';
+		
 }
 
 [ros-logo] {
@@ -42,7 +43,7 @@ header {
 	background-repeat: repeat-x;
 	height: 50px;
 	border-radius: 10px; 
-	font-family: 'CeriaLebaran';
+	font-family: 'Dalek';
 }
 
 .wooden-navigation > li {
@@ -194,6 +195,15 @@ form[name="answer-form"] input:-ms-input-placeholder {
 .modal-title {
 	font-family: 'UglyQua';
 	font-size: 20px;
+}
+.well
+{
+	background:transparent;
+	background-color: #98e698;
+	border:2px solid;
+	-moz-border-radius:5px;
+	border-radius:5px;
+
 }
 
 [name="loginform"] > input[type="email"], [name="loginform"] > input[type="password"] {

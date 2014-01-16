@@ -2,11 +2,8 @@
 <nav role="navigation">
                 <ul class="nav nav-pills wooden-navigation">
                     <li><a href="<?echo base_url()?>">Home</a></li>
-                    <li><a href="<?echo base_url()?>loadLevel">PLAY</a></li>
-                    <li><a href="<?echo base_url()?>leaderboard">Leaderboard</a></li>
-                    <li><a href="<?echo base_url()?>comments">Forum</a></li>
-                    <li><a href="<?echo base_url()?>instruction">FAQ</a></li>
-                
+                    <li><a href="<?echo base_url()?>play">PLAY</a></li>
+                    <li><a href="<?echo base_url()?>leaderboard">Leaderboard</a></li>                
                  <ul class="nav pull-right nav-pills wooden-navigation">
                   
                 
@@ -71,8 +68,8 @@
                             <div class="col-lg-6">
                                 <p>Login with email</p>
                                 <form name="loginform" role="form" action="javascript:void(0)" method="POST" accept-charset="UTF-8">
-                                    <input type="email" name="emailaddress" placeholder="Email Address" required>
-                                    <input type="password" name="password" placeholder="Password" required>
+                                    <input type="email" name="emailaddress" placeholder="Email Address" required/>
+                                    <input type="password" name="password" placeholder="Password" required/>
                                     <button type="submit"  name="attempt-login">Sign In <i class="fa fa-arrow-right"></i></button>
                                 </form>
                             </div>

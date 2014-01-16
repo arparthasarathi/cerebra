@@ -38,6 +38,7 @@ $(function () {
 			'password' : $('form[name="loginform"] input[name="password"]').val()
 		}
 
+
 		$('#loginform').removeClass('invalidlogin');
 
 		console.log(formdata);
@@ -50,7 +51,7 @@ $(function () {
 		{
 			$.ajax ({
 				type: "POST",
-				url: base_url+"auth/k_login",	
+				url: base_url+"/auth/k_login",	
 				data: formdata,		
 				cache: false,
 				success: function (data) {	

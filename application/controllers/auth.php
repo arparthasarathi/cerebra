@@ -410,26 +410,29 @@ class auth extends CI_Controller
 			{
 				if($content = $this->bitauth->login($this->input->post('username'), $this->input->post('password'), $this->input->post('remember_me')))
 				{
-						$ret=$this->session->all_userdata();
-       	 				$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-        				$data['log']=$logged_details;
-						$response = array('status' => 1, 'response' => $logged_details);
+					$ret=$this->session->all_userdata();
+       	 			$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
+        			$data['log']=$logged_details;
+					$response = array('status' => 1, 'response' => $logged_details);
 						//$this->session->unset_userdata('redir');
 				}
 				else
 				{
-					$response = array('status' => 2, 'response' =>  $this->bitauth->get_error());
+				$response = array('status' => 2, 'response' =>  $this->bitauth->get_error());
 				}
 			}
 			else
 			{
 				$response = array('status' => 0, 'response' => validation_errors());
-				//$data['error'] = validation_errors();
-				//$this->load->view('login');
+				$data['error'] = validation_errors();
+		//		$this->load->view('login');
 			}
 		}
-		echo json_encode($response);
-		//$this->load->view('login', $data);
+		
+		json_encode($response);
+
+		//echo $response;
+		
 	}
 
 	public function k_logout()
