@@ -58,10 +58,13 @@ class Main extends CI_Controller {
 			$this->load->view('_template/head/scripts');
 			$this->load->view('_template/head/head-start');
 			$this->load->view('_template/head/meta-tags');
+			$this->load->view('_template/head/head-end');
 			$data['title']="ROS";
 			$this->load->view('_template/head/styles');
 			$this->load->view('_template/basic/ros_navigation',$data);
 			$this->load->view('_template/basic/leader',$data);
+			$this->load->view('_template/head/body-end');
+			$this->load->view('_template/head/html-end');
 		}
 		else
 		redirect(base_url());

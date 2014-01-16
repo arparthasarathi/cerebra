@@ -92,7 +92,7 @@ public function getques($kid)
 		//	$time_dif=$t-human_to_unix($st_time);				
 			
 			$totalques=count($ques);
-			$code='</h2><div class="col-md-6 col-md-offset-2">
+			$code='<font color="#fff"></h2><div class="col-md-6 col-md-offset-2">
 			<h3 >Points : &nbsp' . $p . ' </h3> 
 			<h3 >Time remaining : &nbsp; 00:00:00</h3>';
 			
@@ -113,7 +113,7 @@ public function getques($kid)
 				<b>Question ' . $u . '</b>
 				<div class="span6"><b>Attempts : </b>&nbsp;
 				<div style="display:inline;">' . $qw[$u] . '</div></div>
-			<form name="unanswered' .$u. '" method="post" action="http://localhost/ros/index.php/submit">
+			<form name="unanswered' .$u. '" method="post" action="<? echo base_url();?>/submit">
 			<input type="hidden" name="level" value="' .$u. '"/>
 			<br>' . $ques[$u] . '<br>
 			<br>

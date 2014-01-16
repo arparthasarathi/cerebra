@@ -1,9 +1,9 @@
 
 <nav role="navigation">
                 <ul class="nav nav-pills wooden-navigation">
-                    <li><a href="<?echo base_url()?>">Home</a></li>
-                    <li><a href="<?echo base_url()?>play">PLAY</a></li>
-                    <li><a href="<?echo base_url()?>leaderboard">Leaderboard</a></li>
+                    <li><a href="<?echo base_url();?>">Home</a></li>
+                    <li><a href="<?echo base_url();?>play">PLAY</a></li>
+                    <li><a href="<?echo base_url();?>leaderboard">Leaderboard</a></li>
                                   
                  <ul class="nav pull-right nav-pills wooden-navigation">
                   
