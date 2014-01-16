@@ -1,6 +1,15 @@
 body
 {
-	background-color:#9bb4cc;
+	
+    
+    background: -moz-radial-gradient(center, ellipse cover, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* ff3.6+ */
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(175,200,219,1)), color-stop(100%, rgba(0,0,0,1))); /* safari4+,chrome */
+    background:-webkit-radial-gradient(center, ellipse cover, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* safari5.1+,chrome10+ */
+    background: -o-radial-gradient(center, ellipse cover, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* opera 11.10+ */
+    background: -ms-radial-gradient(center, ellipse cover, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* ie10+ */
+    background:radial-gradient(ellipse at center, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* w3c */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#AFC8DB', endColorstr='#000000',GradientType=1 ); /* ie6-9 */
+
 	background-size: 100% 100%;
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -38,7 +47,7 @@ header {
 }
 
 .wooden-navigation {
-	background-image: url('../images/navigationbg.png');
+	
 	background-size: auto 50px;
 	background-repeat: repeat-x;
 	height: 50px;
@@ -55,6 +64,7 @@ header {
 	font-size: 20px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
+	font-color:black;
 }
 
 .wooden-navigation > li > a:hover {

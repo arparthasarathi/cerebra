@@ -1,6 +1,6 @@
 $(function () {
 	
-	var k_base_url = "http://kurukshetra.org.in/";
+	var k_base_url = "http://localhost/ros/index.php/";
 
 	$(document).ready(function(){
 		

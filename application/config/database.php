@@ -50,8 +50,8 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'hello';
-$db['default']['database'] = 'k14_cerebra';
+$db['default']['password'] = '12345';
+$db['default']['database'] = 'main_cerebra';
  //$db['default']['database'] = 'kurukshetra.org.in_main';
  //$db['default']['hostname'] = 'mysql.kurukshetra.org.in';
  //$db['default']['username'] = 'k14_admin';

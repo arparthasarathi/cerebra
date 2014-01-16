@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/k14/cerebra_final/';
+$config['base_url']	= 'http://localhost/ros/index.php/';
 // $config['base_url']	= 'http://kurukshetra.org.in/ros/';
 /*
 |--------------------------------------------------------------------------

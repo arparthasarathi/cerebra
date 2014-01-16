@@ -6,9 +6,9 @@ Class Rosmodel extends CI_Model
 	{
 		parent::__construct();
 		{
-			//$this->load->database();
+			$this->load->database();
 			$this->load->helper('url');
-
+			$this->load->helper('date');
 
 		}
 	}
@@ -66,8 +66,9 @@ public function getques($kid)
         if ($rs->num_rows() == 1) {
             $rrs     = $rs->row();
             $st_time = $rrs->st_time;
-            $diff    = $t - $st_time;
-            $rem     = ($diff + 109899) - $t;
+            $rem=$t-human_to_unix($st_time);
+            //$diff    = $t - $st_time;
+            //$rem     = ($diff + 109899) - $t;
 			$flag=1;
 		}
 		
@@ -77,7 +78,7 @@ public function getques($kid)
 		}
 		
 		if($flag==1){
-			if($rem<=0)
+			if($rem>=5400)
 			{
 				$msg="<h2>Athena main contest ended</h2></div>";
 				$flag=0;
@@ -88,18 +89,12 @@ public function getques($kid)
 				
 					
 
-							
+		//	$time_dif=$t-human_to_unix($st_time);				
 			
 			$totalques=count($ques);
-			$code='<h1 align="center">Welcome To Cerebra-14 !!></h1>
-			<h2 align="left">The contest consists of 30 questions of answering type.Give your answers in the box given below.The instructions are below
-			<ul><li>You will be awarded 3 points<div class="col-md-6 col-md-offset-2">
+			$code='</h2><div class="col-md-6 col-md-offset-2">
 			<h3 >Points : &nbsp' . $p . ' </h3> 
-			<h3 >Time remaining : &nbsp; 00:00:00</h3>
-	
-			
-			
-			';
+			<h3 >Time remaining : &nbsp; 00:00:00</h3>';
 			
 			
 			if($totalquestions==$answered)
@@ -110,11 +105,12 @@ public function getques($kid)
 			else if($flag==0){
 				$code.=$msg;
 			}
+			
 			else{
 					for ($u = 1; $u <$totalques; $u++) {
 				if (!$qa[$u]) {
 				$code .= '<br>
-				<b>Question ' . $u . '</b>&nbsp;&nbsp;
+				<b>Question ' . $u . '</b>
 				<div class="span6"><b>Attempts : </b>&nbsp;
 				<div style="display:inline;">' . $qw[$u] . '</div></div>
 			<form name="unanswered' .$u. '" method="post" action="http://localhost/ros/index.php/submit">
@@ -153,11 +149,11 @@ public function getanswer($level,$answer,$kid)
         if ($rs->num_rows() == 1) {
             $rrs     = $rs->row();
             $st_time = $rrs->st_time;
-            $diff    = $t - $st_time;
-            if ($diff < 109899)
+            $diff    = $t - human_to_unix($st_time);
+            if ($diff > 5400)
                 return ;
                 }
-		if(trim($answer)==null) return 12;
+		if(trim($answer)==null) return;
 		
 		else{
 		
