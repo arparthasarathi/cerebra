@@ -47,11 +47,11 @@ header {
 }
 
 .wooden-navigation {
-	
+	background-color: rgba(255,255,255,1);
 	background-size: auto 50px;
 	background-repeat: repeat-x;
 	height: 50px;
-	border-radius: 10px; 
+	
 	font-family: 'Dalek';
 }
 
@@ -60,7 +60,7 @@ header {
 }
 
 .wooden-navigation > li > a {
-	color: rgba(255,255,255,1.0);
+	color: rgba(0,0,0,1.0);
 	font-size: 20px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
@@ -68,9 +68,9 @@ header {
 }
 
 .wooden-navigation > li > a:hover {
-	background-color: rgba(0,0,0,0.5);
+	background-color: rgba(255,255,255,0.5);
 	border-radius: 0;
-	box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+	
 }
 
 .imagebox {
@@ -103,9 +103,14 @@ form[name="answer-form"] > input[type="text"] {
 	font-family: 'UglyQua';
 }
 #fixed-div {
+background-color:rgba(255,255,255,0.5);
+border-radius:10px;
     position: fixed;
     top: 30%;
-    right: 10%;
+    right: 20%;
+padding:20px;
+width:15%;
+height:15%;
 }
 
 form[name="answer-form"] > input[type="text"]:focus {
