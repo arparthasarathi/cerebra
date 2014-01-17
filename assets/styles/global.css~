@@ -105,7 +105,7 @@ form[name="answer-form"] > input[type="text"] {
 #fixed-div {
     position: fixed;
     top: 30%;
-    right: 20%;
+    right: 10%;
 }
 
 form[name="answer-form"] > input[type="text"]:focus {

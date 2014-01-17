@@ -1,4 +1,4 @@
-<title><? echo $title ?></title>
+<title>ROS|LEADERBOARD</title>
 <div class="container">
 	<div class="empty-track"></div>
 	<div class="personal">
@@ -31,7 +31,7 @@ $i=1;
 foreach($id as $mi)
 {
 	echo '<div class="col-md-3">'.$i.'</div>';
-	echo '<div class="col-md-3">'.strtoupper($mi->kid).'</div>';
+	echo '<div class="col-md-3">'.$mi->kid.'</div>';
 	echo '<div class="col-md-3">'.$mi->name.'</div>';
   	echo '<div class="col-md-3">'.$mi->points.'</div>';
 	$i++;

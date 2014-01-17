@@ -14,7 +14,7 @@ class Main extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('gravatar_helper');
 		$this->load->helper('kimage_helper');
-		$this->load->model('rosmodel');
+		$this->load->model('cerebramodel');
 		$this->load->library('form_validation');
 		$this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
@@ -29,7 +29,7 @@ class Main extends CI_Controller {
 	{
 		
 		
-		$result=$this->db->query('SELECT kid,points from cerebra_users ORDER BY points DESC LIMIT 0,15');
+		$result=$this->db->query('SELECT kid,name,points from cerebra_users ORDER BY points DESC LIMIT 0,15');
 
 		if($this->bitauth->logged_in())
 		{
@@ -59,9 +59,9 @@ class Main extends CI_Controller {
 			$this->load->view('_template/head/head-start');
 			$this->load->view('_template/head/meta-tags');
 			$this->load->view('_template/head/head-end');
-			$data['title']="ROS";
+			$data['title']="Cerebra'14";
 			$this->load->view('_template/head/styles');
-			$this->load->view('_template/basic/ros_navigation',$data);
+			$this->load->view('_template/basic/cerebra_navigation',$data);
 			$this->load->view('_template/basic/leader',$data);
 			$this->load->view('_template/head/body-end');
 			$this->load->view('_template/head/html-end');
@@ -106,19 +106,19 @@ $data['logged_in'] = 0;
         	$data['logged_in'] = 1;
 		}
 		//echo $logged_details;
-			$data['title']="ROS";
-			$data['welcome']="Welcome to ROS";
+			$data['title']="Cerebra'14";
+			$data['welcome']="Welcome to Cerebra";
 			$this->load->view('_template/head/doctype');
 			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/basic/ros_meta');
+			$this->load->view('_template/basic/cerebra_meta');
 			$this->load->view('_template/head/styles');
 			$this->load->view('_template/head/head-start');
 			$this->load->view('_template/head/title',$data);
 			$this->load->view('_template/head/scripts');
 			$this->load->view('_template/head/head-end');
 			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/ros_navigation',$data);
-			$this->load->view('_template/basic/roswelcome',$data);
+			$this->load->view('_template/basic/cerebra_navigation',$data);
+			$this->load->view('_template/basic/cerebrawelcome',$data);
 			$this->load->view('_template/head/body-end');
 			$this->load->view('_template/head/html-end');
 
@@ -136,22 +136,22 @@ public function play()
 		//echo $logged_details->fullname;
 		$data['log']=$logged_details;
 		     	$data['logged_in'] = 1;
-		$this->load->model('rosmodel');
-		$this->rosmodel->initialize($logged_details->kid);
-		$data['centerDiv']=$this->rosmodel->getques($logged_details->kid);
-		$data['title']="ROS";
+		$this->load->model('cerebramodel');
+		$this->cerebramodel->initialize($logged_details->kid);
+		$data['centerDiv']=$this->cerebramodel->getques($logged_details->kid);
+		$data['title']="Cerebra";
 			
-			$data['welcome']="Welcome to ROS";
+			$data['welcome']="Welcome to Cerebra";
 			$this->load->view('_template/head/doctype');
 			$this->load->view('_template/head/html-start');
-			$this->load->view('_template/basic/ros_meta');
+			$this->load->view('_template/basic/cerebra_meta');
 			$this->load->view('_template/head/styles');
 			$this->load->view('_template/head/head-start');
 			$this->load->view('_template/head/title',$data);
 			$this->load->view('_template/head/scripts');
 			$this->load->view('_template/head/head-end');
 			$this->load->view('_template/head/body-start');
-			$this->load->view('_template/basic/ros_navigation',$data);
+			$this->load->view('_template/basic/cerebra_navigation',$data);
 			$this->load->view('questions',$data);
 			$this->load->view('_template/head/body-end');
 			$this->load->view('_template/head/html-end');
@@ -170,7 +170,7 @@ public function play()
 		{
 		$ret=$this->session->all_userdata();
 		$logged_details=$this->bitauth->get_user_by_id($ret['ba_user_id']);
-		$this->rosmodel->getanswer($this->input->post('level'),$this->input->post('answer'),$logged_details->kid);
+		$this->cerebramodel->getanswer($this->input->post('level'),$this->input->post('answer'),$logged_details->kid);
 	}
    		redirect(base_url().'play');
           		          	

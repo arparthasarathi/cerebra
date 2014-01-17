@@ -36,9 +36,6 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
-define('GAMESITE',		'http://dilip.kurukshetra.org.in/cerebra/home.php');
-define('FB_APPID','217608864916653');
-define('FB_SECRET','a8b2d7663ab5eacaf5a72d94bdc48132');
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

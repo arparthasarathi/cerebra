@@ -10,7 +10,7 @@
 					<div class="row">
 						
 						<div class="span12 pagination-centered" >
-						<div class="col-md-8 col-md-offset-2"><font color="#fff"><h1 align="center">Welcome To Cerebra-14 !!<br></h1>
+						<div class="col-md-8 col-md-offset-2"><font color="#fff"><h1 align="center">Welcome To Cerebra-14 !!<br>time left:<span id="countdown"></span></h1>
 			<br><br><h4 align="left">
 The contest consists of 30 questions of answering type.Give your answers in the box given below.The instructions are below.</h4>
 			<h4><div class="empty track"></div>
