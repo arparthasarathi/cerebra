@@ -202,7 +202,7 @@ form[name="answer-form"] input:-ms-input-placeholder {
 
 .modal-content {
 	background: transparent;
-	background-image: url('../images/modalbg.jpg');
+	background-color:rgba(185,185,185,1.0);
 	color: #111;
 	padding: 10px;
 
@@ -231,12 +231,13 @@ form[name="answer-form"] input:-ms-input-placeholder {
 
 [name="loginform"] > input[type="email"], [name="loginform"] > input[type="password"] {
 	width: 100%;
-	background: transparent;
+	
+	background:transparent;
 	border: none;
 	border-bottom: 2px solid #2B1402;
 	padding: 10px;
 	font-size: 20px;
-	font-family: 'UglyQua';
+	font-family: 'Dalek';
 	 -moz-appearance:    textfield;
         -webkit-appearance: textfield;
         appearance: textfield;
