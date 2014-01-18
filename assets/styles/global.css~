@@ -9,11 +9,12 @@ body
     background: -ms-radial-gradient(center, ellipse cover, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* ie10+ */
     background:radial-gradient(ellipse at center, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* w3c */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#AFC8DB', endColorstr='#000000',GradientType=1 ); /* ie6-9 */
-
+	
 	background-size: 100% 100%;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+
 	color: #000;
 	font-family: 'Roboto';
 		
@@ -92,7 +93,10 @@ header {
 .empty-track {
 	height: 100px;
 }
-
+.btn-primary,
+{
+border-radius:5px;
+}
 form[name="answer-form"] > input[type="text"] {
 	width: 100%;
 	background: transparent;
@@ -202,7 +206,7 @@ form[name="answer-form"] input:-ms-input-placeholder {
 
 .modal-content {
 	background: transparent;
-	background-color:rgba(185,185,185,1);
+	background-color:rgba(185,185,185,1.0);
 	color: #111;
 	padding: 10px;
 
@@ -231,6 +235,8 @@ form[name="answer-form"] input:-ms-input-placeholder {
 
 [name="loginform"] > input[type="email"], [name="loginform"] > input[type="password"] {
 	width: 100%;
+	
+	background:transparent;
 	border: none;
 	border-bottom: 2px solid #2B1402;
 	padding: 10px;

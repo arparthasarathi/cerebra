@@ -9,11 +9,12 @@ body
     background: -ms-radial-gradient(center, ellipse cover, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* ie10+ */
     background:radial-gradient(ellipse at center, rgba(175,200,219,1) 0%, rgba(0,0,0,1) 100%); /* w3c */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#AFC8DB', endColorstr='#000000',GradientType=1 ); /* ie6-9 */
-
+	
 	background-size: 100% 100%;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
+
 	color: #000;
 	font-family: 'Roboto';
 		
@@ -92,7 +93,11 @@ header {
 .empty-track {
 	height: 100px;
 }
-
+.btn {
+   -webkit-border-radius: 20px;
+   -moz-border-radius: 20px;
+   border-radius: 20px;
+}
 form[name="answer-form"] > input[type="text"] {
 	width: 100%;
 	background: transparent;

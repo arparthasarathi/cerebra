@@ -169,8 +169,8 @@ if(seconds>=0 && minutes>0)
 			<input type="hidden" name="level" value="' .$u. '"/>
 			<br>' . $ques[$u] . '<br>
 			<br>
-			<input type="text" class="form-control span4" name="answer" id="t' . $u . '" placeholder="Your Answer Here!!"/>
-			<br><button type="submit" class="btn btn-primary btn-sm" id="but'.$u.'" >Submit</button>
+			<input type="text" class="form-control input-lg" name="answer" id="t' . $u . '" placeholder="Your Answer Here!!" tab-index="'.$u.'"/>
+			<br><button type="submit" class="btn btn-primary btn-lg" id="but'.$u.'" style="float:right;border-radius:5px;"  >Submit</button>
 			</form>';
 								} 
 
