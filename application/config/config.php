@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/cerebra';
-// $config['base_url']	= 'http://kurukshetra.org.in/cerebra/';
+//$config['base_url']	= 'http://localhost/cerebra';
+$config['base_url']	= 'http://cerebra.kurukshetra.org.in';
 /*
 |--------------------------------------------------------------------------
 | Index File

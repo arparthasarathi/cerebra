@@ -68,7 +68,7 @@ $(function () {
 						$('[name="team-workshop-register-button"]').data('logged-in',trapdata.response.kid);
 						$('[name="attachment_registration"]').html("<p>Refresh Page to know status.</p>");
 						console.log(trapdata.response.email);
-						$('#loginModal').modal('hide');
+						$('#login').modal('hide');
 					}
 					else if($.trim(trapdata.status) == 2)
 					{

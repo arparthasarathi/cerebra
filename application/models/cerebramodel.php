@@ -66,65 +66,39 @@ public function getques($kid)
 
 					"Harvey loves factors.He wants to find the largest factor of the number formed from his birthday 13/8/1992 (i.e 1381992)  which  should also be a prime. Can you answer his query ?",
 
-"* Find the next term in the series:
+"* Find the next term in the series:<br>
 
-10^3, 10^9, 10^12, 10^2, 10^0, __
+10^3, 10^9, 10^12, 10^2, 10^0, __<br>
 
 Enter your answer in words. Eg. If your answer is 102, then enter as onehundred",
 
 "If  there is only 2 digits 5 and 6 in Bagel’s number system.i.e 1st number is 5,2nd is 6 and so on such that number sequence is 5,6,55,56,65,66,555,... What is the 100th number ?",
 
-"Vishnu takes a fair coin from his pocket and flips it once. His brother  flips a fair coin twice. Find the probability that vishnu obtains more heads than his brother ?",
+"Vishnu takes a fair coin from his pocket and flips it once. His brother  flips a fair coin twice. Find the probability that vishnu obtains more heads than his brother ?
+<br>
+Answer in the form of a/b",
 
-"Answer in the form of a/b
+"*  Find the missing number(?) in the 3rd box
 
-*  Find the missing number(?) in the 3rd box
-
- _______________________
-|		|		|		|
-|	10	|		|	3	|
-|_______|_______|_______|
-|		|		|		|
-|		|	2	|		|
-|_______|_______|_______|
-|		|		|		|
-|	2	|		|	3	|
-|_______|_______|_______|
-
- _______________________
-|		|		|		|
-|	45	|		|	2	|
-|_______|_______|_______|
-|		|		|		|
-|		|	10	|		|
-|_______|_______|_______|
-|		|		|		|
-|	5	|		|	3	|
-|_______|_______|_______|
-
-
- _______________________
-|		|		|		|
-|	?	|		|	4	|
-|_______|_______|_______|
-|		|		|		|
-|		|	2	|		|
-|_______|_______|_______|
-|		|		|		|
-|	7	|		|	3	|
-|_______|_______|_______|",
+<br>
+ <img src='http://localhost/ros/assets/images/first.png'/>
+ <br>
+ <img src='http://localhost/ros/assets/images/second.png'/>
+ <br>
+ <img src='http://localhost/ros/assets/images/third.png'/>",
 
 "Ramu was travelling in a bus and there was a digital 24 hrs clock and a mirror next to it. Rather than looking directly at the clock, Ramu preferred looking the image of clock in the mirror. Initially the image showed him 10:55. He took a nap and after waking up he saw the mirror again. It showed him 85:20. Find the actual amount of time (in seconds) spent while sleeping.",
 
 "64:6163 :: 58: ?",
 
 "Two gears of diameter 5cm and 9.6cm respectively, are adjusted so that the smaller gear drives the larger one. If the smaller gear rotates through an angle of 225 degrees, through how many degrees, will the larger gear rotate?
+<br>
 
 (Input your answer to the nearest integer)",
 
 "A little kid was playing with a container having 80 litres of milk. The kid had an 8 litre measuring jar and started to take out a jar full of milk from the container and poured a jar full of water instead. The kid repeated this further twice, before he was caught red-handed by this mother. How much litres of milk is available in the container now?",
 
-"* If ¼ of 20 is 6, then what is 1/6 of 10? (Format: Round off to 2 decimal places if needed)",
+"* If 1/4 of 20 is 6, then what is 1/6 of 10? (Format: Round off to 2 decimal places if needed)",
 
 "A motor car travelling towards a lake overtakes a cyclist at 0900hrs. The car reaches the lake at 1030hrs and after waiting for an hour, returns, meeting the cyclist at noon (1200hrs). When will the cyclist reach the lake? (If he reaches at 1545hrs, answer format: 1545)",
 
@@ -132,14 +106,14 @@ Enter your answer in words. Eg. If your answer is 102, then enter as onehundred"
 
 HINT: A famous Personality<br>
 
-Encrypted text: kzfodzopvi",
+Encrypted text:<br> kzfodzopvi",
 
 
 "Harry Potter travelled a distance of 52km in 9 hours.He travelled partly on foot at 3km/hr and partly on broomstick at 8km/hr.The distance travelled on broomstick is:",  
 
 "Sheldon is so bored that he started counting the number of digits used to represent the each page in the book he was reading. The pages are numbered in sequential order starting from 1.If the total number of decimal digits used is 189 can you find out the number of pages in the book ?",
 
-"A woman sees the photograph of a man and says, “This man/’s sister is my mother-in-law”. How is the man in the photograph related to the woman’s husband?",
+"A woman sees the photograph of a man and says, “This sister of that man is my mother-in-law”. How is the man in the photograph related to the woman’s husband?",
 
 
 "If<br> 1=5<br>
@@ -207,41 +181,23 @@ Encrypted text: kzfodzopvi",
 "If a man walks to work and rides back home, it takes him an hour and a half. When he rides both ways, it takes 30 minutes. How long would it take him to make the round trip by walking? (Answer in minutes)",
 
 "* Samuel, the bot, is standing in position A(1,1) of a 8 X 6 rectangular grid . He is allowed to move either right or down. He travels through the edges of the grids. He is not allowed to move up or left. By how many possible ways, he can reach B(8,6) from A?
- _______________________________________________________________________________________________
-|	    	|			|			|			|			|			|			|			|
-|	A(1,1)	|			|			|			|			|			|			|			|
-|___________|___________|___________|___________|___________|___________|___________|___________|
-|			|			|			|			|			|			|			|			|
-|			|			|			|			|			|			|			|			|
-|___________|___________|___________|___________|___________|___________|___________|___________|
-|			|			|			|			|			|			|			|			|
-|			|			|			|			|			|			|			|			|
-|___________|___________|___________|___________|___________|___________|___________|___________|
-|			|			|			|			|			|			|			|			|
-|			|			|			|			|			|			|			|			|
-|___________|___________|___________|___________|___________|___________|___________|___________|
-|			|			|			|			|			|			|			|			|
-|			|			|			|			|			|			|			|			|
-|___________|___________|___________|___________|___________|___________|___________|___________|
-|			|			|			|			|			|			|			|			|
-|			|			|			|			|			|			|			|	B(8,6)	|
-|___________|___________|___________|___________|___________|___________|___________|___________|
-
+ <br>
+ <img src='http://localhost/ros/assets/images/fourth.png'/>
 ",
 	
 
 
 "The beginning of baseball season, you make a bet with a friend. For every game, the Mudville Nine plays, you pay him 5$ when they lose, while he pays you 7$ when they win. Mudville Nine played 156 games in the season. When the game is over, you find that, you came out exactly even. How many games did the Mudville Nine win?",
 
-"Find the next two numbers in the series:
+"Find the next two numbers in the series:<br>
 
-4, 6, 12, 18, 30, __ , __
+4, 6, 12, 18, 30, __ , __<br>
 
 (Type the answer without spaces. Eg. If 12 and 13 are the two numbers, format is 1213)",
 
 "* There was a place called  “Land of mystery”, which had special creatures called “Togepi”. Each pair of togepi needs two months initially for growth and after two months, they produce one pair of togepi in the every successor month. Assuming that there was one pair of togepi at the first month (i.e. by the end of third month, this pair would have produced one new pair and it would be one month large), find the number of togepi in the Land of Mystery by the end of one and a half years.",
 
-"Decode the following message:
+"Decode the following message:<br>
 
 takouynh
 
@@ -273,14 +229,14 @@ takouynh
 		}
 		
 	if($rem<=0){
-			$msg="<h2>Please wait for main contest</h2></div>";
-			$flag=0;
+			$msg="<h2>Please wait till 20:00 IST !!</h2></div>";
+						$flag=0;
 		}
 		
 		if($flag==1){
 			if($rem>=5400)
 			{
-				$msg="<h2>Athena main contest ended</h2></div>";
+				$msg="<h2>Cerebra main contest ended !! </h2></div>";
 				$flag=0;
 			}
 		}
@@ -292,12 +248,12 @@ takouynh
 		//	$time_dif=$t-human_to_unix($st_time);				
 			
 			$totalques=count($ques);
-			$code='<font color="#fff"></h2><div class="col-md-6 col-md-offset-2">';
+			$code='<font color="#800080"></h2><div class="col-md-9">';
 			
 			
 			if($totalquestions==$answered)
 			{
-				$code.="<h2>You have completed!</h2>";
+				$code.="<h2>You have completed!!</h2>";
 				$code.="</div>";
 			}
 			else if($flag==0){
@@ -345,7 +301,7 @@ if(seconds>=0 && minutes>0)
     document.getElementById("countdown").innerHTML = hours + "h: "+ minutes + "m: " + seconds + "s";  
  
 }, 1000);
-    </script></h3> 
+    </script><div id="mascot" class="col-md-4 col-md-offset-8 "></div></h3> 
 			';
 					for ($u = 1; $u <$totalques; $u++) {
 
@@ -385,7 +341,7 @@ public function getanswer($level,$answer,$kid)
 {
 	//return 10;
 	$answer_arr=array("0",
-"647","four","655656","⅛","7","26820","4652","117","58.32","2","1330","paulwalker","40","99","uncle","1","7","120000","337","5","123048169131","kurukshetra","15","10","49","24","35","31","5","480","91011","25","432","1515","150","792","65","4260","5168","thankyou"
+"647","four","655656","1/8","7","26820","4652","117","58.32","2","1330","paulwalker","40","99","uncle","1","7","120000","337","5","123048169131","kurukshetra","15","10","49","24","35","31","5","480","91011","25","432","1515","150","792","65","4260","5168","thankyou"
 	);
 	 $t  = time();
         $rs = $this->db->query("select st_time from start_cerebra");
