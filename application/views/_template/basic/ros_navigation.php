@@ -18,7 +18,7 @@
                         </li>
                         <li name="k-connect-profile" class="dropdowns">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                                <span name="fullname"><? if($logged_in>0) { ?><img src="<?php echo encode_base64_image(gravatar($log->email, array('s' => 20, 'd' => 'wavatar'))); ?>"><? } ?> <? echo $log->fullname; ?> <small>(<? echo $log->kid; ?>)</small></span><b class="caret"></b>
+                                <span name="fullname"><? if($logged_in) { ?><img src="<?php echo encode_base64_image(gravatar($log->email, array('s' => 20, 'd' => 'wavatar'))); ?>"><? } ?> <? echo $log->fullname; ?> <small>(<? echo $log->kid; ?>)</small></span><b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu">
                               <!--  <li><a href="<? //echo base_url(); ?>profile/<? echo $log->profilename; ?>">Profile</a></li> -->
