@@ -48,15 +48,15 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-//$db['default']['hostname'] = 'localhost';
-//$db['default']['username'] = 'root';
-//$db['default']['password'] = '12345';
-//$db['default']['database'] = 'main_cerebra';
- //$db['default']['database'] = 'kurukshetra.org.in_main';
- $db['default']['hostname'] = 'mysql.cerebra.kurukshetra.org.in';
- $db['default']['username'] = 'cerebra_admin';
- $db['default']['password'] = 'grouponcerebra';
- $db['default']['database'] = 'main_cerebra';
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '123456';
+$db['default']['database'] = 'k14_main';
+// $db['default']['database'] = 'kurukshetra.org.in_main';
+ //$db['default']['hostname'] = 'mysql.cerebra.kurukshetra.org.in';
+//$db['default']['username'] = 'cerebra_admin';
+//$db['default']['password'] = 'grouponcerebra';
+//$db['default']['database'] = 'k14_admin';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;

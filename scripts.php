@@ -1,5 +1,5 @@
 		<script type="text/javascript">
-			var base_url = "http://localhost/cerebra/";			
+			var base_url = "http://cerebra.kurukshetra.org.in/";			
 			 
 		</script>
 		<script type="text/javascript" src="<? echo base_url();?>/assets/scripts/jquery.min.js"></script>

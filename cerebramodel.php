@@ -81,11 +81,11 @@ Answer in the form of a/b",
 "*  Find the missing number(?) in the 3rd box
 
 <br>
- <img src='http://www.kurukshetra.org.in/cerebra/assets/images/first.png'/>
+ <img src='http://localhost/ros/assets/images/first.png'/>
  <br>
- <img src='http://www.kurukshetra.org.in/cerebra/assets/images/second.png'/>
+ <img src='http://localhost/ros/assets/images/second.png'/>
  <br>
- <img src='http://www.kurukshetra.org.in/cerebra/assets/images/third.png'/>",
+ <img src='http://localhost/ros/assets/images/third.png'/>",
 
 "Ramu was travelling in a bus and there was a digital 24 hrs clock and a mirror next to it. Rather than looking directly at the clock, Ramu preferred looking the image of clock in the mirror. Initially the image showed him 10:55. He took a nap and after waking up he saw the mirror again. It showed him 85:20. Find the actual amount of time (in seconds) spent while sleeping.",
 
@@ -113,7 +113,7 @@ Encrypted text:<br> kzfodzopvi",
 
 "Sheldon is so bored that he started counting the number of digits used to represent the each page in the book he was reading. The pages are numbered in sequential order starting from 1.If the total number of decimal digits used is 189 can you find out the number of pages in the book ?",
 
-"A woman sees the photograph of a man and says, <b>'This sister of that man is my mother-in-law'</b>. How is the man in the photograph related to the husband of the woman?",
+"A woman sees the photograph of a man and says, <b>'This sister of that man is my mother-in-law'</b>. How is the man in the photograph related to the woman’s husband?",
 
 
 "If<br> 1=5<br>
@@ -211,9 +211,12 @@ takouynh
 		$totalquestions=count($ques);
 		
 		$t=time();
-		$rs ="2014-01-18 20:27:00";
-	   
-            $rem=$rs;
+		$rs = $this->db->query("select st_time from start_cerebra");
+        $rem=0;
+        if ($rs->num_rows() == 1) {
+            $rrs     = $rs->row();
+            $st_time = $rrs->st_time;
+            $rem=$t-human_to_unix($st_time);
 ?>
 <script type="text/javascript">
 			var phptimestamp = "<? echo human_to_unix($st_time)+5400;?>";			
@@ -223,7 +226,7 @@ takouynh
             //$diff    = $t - $st_time;
             //$rem     = ($diff + 109899) - $t;
 			$flag=1;
-		
+		}
 		
 	if($rem<=0){
 			$msg="<h2>Please wait till 20:00 IST !!</h2></div>";
@@ -307,7 +310,7 @@ if(seconds>=0 && minutes>0)
 				<b>Question ' . $u . '</b>
 				<div class="span6"><b>Attempts : </b>&nbsp;
 				<div style="display:inline;">' . $qw[$u] . '</div></div>
-			<form name="unanswered' .$u. '" method="post" action="http://localhost/cerebra/submit">
+			<form name="unanswered' .$u. '" method="post" action="http:/localhost/ros/submit">
 			<input type="hidden" name="level" value="' .$u. '"/>
 			<br>' . $ques[$u] . '<br>
 			<br>
