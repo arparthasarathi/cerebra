@@ -1,5 +1,11 @@
 @import url('font-awesome.min.css');
-
+@font-face 
+{
+    font-family: "Samarkan";
+    src: url('../fonts/Samarkan/Samarkan.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 @font-face 
 {
 	font-weight: normal;

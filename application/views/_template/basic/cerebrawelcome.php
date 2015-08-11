@@ -1,35 +1,46 @@
 <?php
 
 if(isset($welcome)){?>
-	<div class="center-page head"><font color="#800080">
-<h1>Welcome to Cerebra 2014.</h1></div>
+<div class="question">
+	<div class="center-page">
+Welcome to Cerebra 2014.</div>
+<div class="center-page">1.Login before you start playing</div>
+<div class="center-page">2.Also complete your profile to play</div>
+<br>
 <div class="col-md-8 col-md-offset-2">
 
-<span><h3>"The art of simplicity is a puzzle of complexity"</h3></span>&nbsp; -&nbsp;&nbsp;<font align="right">Douglas Horton</font>
+"The art of simplicity is a puzzle of complexity"&nbsp; -&nbsp;&nbsp;<font align="right">Douglas Horton</font>
 
 <br>
 <br>
+
 <p>The charm of good puzzles is too tempting to avoid.<br />
+
 Cerebra is the perfect recipie for those who yearn for the unique blend of mathematics combined with reasoning<br />
 Cerebra is the ultimate online math puzzle challenge for the bunch of &#39;wanna be&#39; mathematicians !!!</p>
 				
-			<br>
-			<div class='tab-pane' id='CONTENT-ITEM-TAB-6gN3'>
-					<h3>Rules  & Format</h3>
+			
+			
+					<div class="white-head">Rules</div>
 					<ol>
-	<li style="text-align:justify">There will be two sets to be held on January 18 (SET 1) 8.00 pm &amp; January 26 (SET 2) 8.00 pm respectively.</li>
-	<li style="text-align:justify">The duration of the contest is 1 hour 30 minutes.</li>
-	<li style="text-align:justify">Cerebra is an online individual event.</li>
-	<li style="text-align:justify">The contest will have more than one set</li>
-	<li style="text-align:justify">Each set will have separate a winner(s).</li>
-	<li style="text-align:justify">Anyone indulging in malpractices, if found, &nbsp;will be disqualified.</li>
+						<li>    
+				The question set will comprise of 40 questions of varying difficulty focussing on math and logic.</li>
 
-	<li style="text-align:justify">The questions will comprise of math based puzzles and logical reasoning puzzles.</li>
+    <li>All problems have same weightage.</li>
+
+    <li>Each correct answer would fetch a +3 in the score and a wrong attempt would result in -1 in the score.</li>
+
+    <li>Problems marked with a * are used for tie breaking.</li>
+
+    <li>The event starts at 20:00 IST sharp and ends by 21:30 IST. Anyone logging in beyond 20:00 IST will have to face the shortage of time.</li>
+
+    <li>All the answers have to be in lowercase without space.</li>
+    <li>Some questions will have formats specified. DO STICK TO THE FORMAT.</li>
+	
 </ol>
-				</div>
+				
 
-<div class="center-page head">1.Login before you start playing</div>
-<div class="center-page head">2.Also complete your profile to play</div></div>
+</div>
 <?}
 
 ?>

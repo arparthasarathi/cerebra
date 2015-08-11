@@ -2,265 +2,322 @@
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 Class Cerebramodel extends CI_Model
 {
-	public function __construct()
-	{
-		parent::__construct();
-		{
-			$this->load->database();
-			$this->load->helper('url');
-			$this->load->helper('date');
+  public function __construct()
+  {
+    parent::__construct();
+    {
+      $this->load->database();
+      $this->load->helper('url');
+      $this->load->helper('date');
 
-		}
-	}
+    }
+  }
 function initialize($kid){
-		$q="SELECT kid from k13_cerebra where kid=?";
-		$res=$this->db->query($q,$kid);
-		if($res->num_rows()>0)
-			return;
-		else
-		{//set initial value in database.
-			$query1="Select fullname from bitauth_userdata where kid=?";
-			$result1=$this->db->query($query1,$kid);
-			foreach($result1->result() as $row1)
-				$name=trim($row1->fullname);		
-			$qid=array();
-			for($u=0;$u<=40;$u++)
-			$qid[$u]=$u;
-			
-			for($value=1;$value<count($qid);$value++) 
-			{
-			$this->db->insert('k13_cerebra',array('kid'=>$kid,'qid'=>$qid[$value],'attempt'=>0,'flag'=>0));
-			}
+    $q="SELECT kid from k13_cerebra where kid=?";
+    $res=$this->db->query($q,$kid);
+    if($res->num_rows()>0)
+      return;
+    else
+    {//set initial value in database.
+      $query1="Select fullname from bitauth_userdata where kid=?";
+      $result1=$this->db->query($query1,$kid);
+      foreach($result1->result() as $row1)
+        $name=trim($row1->fullname);    
+//////////////////////////////////////////////////////
+      $qid=array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40);
+      
+      for($value=1;$value<count($qid);$value++) 
+      {
+      $this->db->insert('k13_cerebra',array('kid'=>$kid,'qid'=>$qid[$value],'attempt'=>0,'flag'=>0));
+      }
 
-		$this->db->insert('cerebra_users',array('kid'=>$kid,'name'=>$name,'points'=>0,'answered'=>0));	
+    $this->db->insert('cerebra_users',array('kid'=>$kid,'name'=>$name,'points'=>0,'answered'=>0));  
 
-			
-			//fb post..
-		}
-	}
+      
+      //fb post..
+    }
+  }
 
 public function getques($kid)
 {
-	$q1="select points,answered from cerebra_users where kid=?";
-	$r1= $this->db->query($q1,$kid);
-	$rr1   = $r1->row();
-	
-	
-		$q2    = "select qid,attempt,flag from k13_cerebra where kid=?";
-		$r2    = $this->db->query($q2,$kid);
-		$rr2   = $r2->row();
-		$qid=array(0);
-		foreach($r2->result() as $row)
-			$qid[]=$row->qid;
-		
-		$qa=array(0);
-		$qw=array(0);
-		//$qa    = $rr2->flag;
-		//$qw    = $rr2->attempt;
-		foreach($r2->result() as $row)
-			{
-				$qa[]=$row->flag;
-				$qw[] = $row->attempt;
-			}
-				$ques= array("dont touch me :P",
+  $q1="select points,answered from cerebra_users where kid=?";
+  $r1= $this->db->query($q1,$kid);
+  $rr1   = $r1->row();
+  
+  
+    $q2    = "select qid,attempt,flag from k13_cerebra where kid=?";
+    $r2    = $this->db->query($q2,$kid);
+    $rr2   = $r2->row();
+    $qid=array();
+    $qa=array();
+    $qw=array();
+    $i=1;
+    foreach($r2->result() as $row)
+      $qid[$i++]=$row->qid;
 
-					"Harvey loves factors.He wants to find the largest factor of the number formed from his birthday 13/8/1992 (i.e 1381992)  which  should also be a prime. Can you answer his query ?",
-
-"* Find the next term in the series:<br>
-
-10^3, 10^9, 10^12, 10^2, 10^0, __<br>
-
-Enter your answer in words. Eg. If your answer is 102, then enter as onehundred",
-
-"If  there is only 2 digits 5 and 6 in Bagel’s number system.i.e 1st number is 5,2nd is 6 and so on such that number sequence is 5,6,55,56,65,66,555,... What is the 100th number ?",
-
-"Vishnu takes a fair coin from his pocket and flips it once. His brother  flips a fair coin twice. Find the probability that vishnu obtains more heads than his brother ?
-<br>
-Answer in the form of a/b",
-
-"*  Find the missing number(?) in the 3rd box
-
-<br>
- <img src='http://www.kurukshetra.org.in/cerebra/assets/images/first.png'/>
- <br>
- <img src='http://www.kurukshetra.org.in/cerebra/assets/images/second.png'/>
- <br>
- <img src='http://www.kurukshetra.org.in/cerebra/assets/images/third.png'/>",
-
-"Ramu was travelling in a bus and there was a digital 24 hrs clock and a mirror next to it. Rather than looking directly at the clock, Ramu preferred looking the image of clock in the mirror. Initially the image showed him 10:55. He took a nap and after waking up he saw the mirror again. It showed him 85:20. Find the actual amount of time (in seconds) spent while sleeping.",
-
-"64:6163 :: 58: ?",
-
-"Two gears of diameter 5cm and 9.6cm respectively, are adjusted so that the smaller gear drives the larger one. If the smaller gear rotates through an angle of 225 degrees, through how many degrees, will the larger gear rotate?
-<br>
-
-(Input your answer to the nearest integer)",
-
-"A little kid was playing with a container having 80 litres of milk. The kid had an 8 litre measuring jar and started to take out a jar full of milk from the container and poured a jar full of water instead. The kid repeated this further twice, before he was caught red-handed by this mother. How much litres of milk is available in the container now?",
-
-"* If 1/4 of 20 is 6, then what is 1/6 of 10? (Format: Round off to 2 decimal places if needed)",
-
-"A motor car travelling towards a lake overtakes a cyclist at 0900hrs. The car reaches the lake at 1030hrs and after waiting for an hour, returns, meeting the cyclist at noon (1200hrs). When will the cyclist reach the lake? (If he reaches at 1545hrs, answer format: 1545)",
-
-"Use a standard cipher to decode the following message.<br>
-
-HINT: A famous Personality<br>
-
-Encrypted text:<br> kzfodzopvi",
+  $i=1;
+    //$qa    = $rr2->flag;
+    //$qw    = $rr2->attempt;
+    foreach($r2->result() as $row)
+      {
+        $qa[$i]=$row->flag;
+        $qw[$i] = $row->attempt;
+        $i++;
+      }
+        
 
 
-"Harry Potter travelled a distance of 52km in 9 hours.He travelled partly on foot at 3km/hr and partly on broomstick at 8km/hr.The distance travelled on broomstick is:",  
+$ques= array("cerebraset2",
 
-"Sheldon is so bored that he started counting the number of digits used to represent the each page in the book he was reading. The pages are numbered in sequential order starting from 1.If the total number of decimal digits used is 189 can you find out the number of pages in the book ?",
-
-"A woman sees the photograph of a man and says, <b>'This sister of that man is my mother-in-law'</b>. How is the man in the photograph related to the husband of the woman?",
+"A geek kid goes to shop for purchasing chocolates. There was an offer stating,'Get 1 chocolate for 3 chocolate wrappers'. If the cost of the each chocolate is Re.1 and the kid has Rs.95 in hand, find the maximum number of chocolates he can buy?",
 
 
-"If<br> 1=5<br>
+"If M is the centre of the circle and x=2y, What is the probability that, any point chosen on the circumference of the circle will lie on the arc ABC? <br>(FORMAT: 0.xx Round off to two decimals)<br>
+<img src='http://kurukshetra.org.in/cerebra/assets/images/1.png'></img>
 
-2=15<br>
+<br>",
 
-3=35<br>
-
-4=75<br>
-
-5=?",
-
-"Father Of Donna was 29 years of age when she was born while her mother was 26 years old when her sister four years younger to her was born. What is the difference between the ages of her parents?",
-
-"P started a Restaurant with Rs 10000 as captial .5 months passed. Q then joined the company.At the end of the first year profit was divided in the ratio 1:7 .What is the capital of Q ?",
-
-"There are 500 match sticks in hand. Your job is to pick certain number of sticks, which when divided by all the numbers from 2 to 8 except 5, will leave a whole number quotient and 0 remainder, when one match stick is removed before dividing. One more constraint is that  you have to pick a minimum of 200 match sticks. Find the number.",
-
-"Sam bought a juice can worth Rs.100.The juice in it is worth 90 rupees more than the can.How much is the can worth(in rupees) ?",
-
-"Three numbers are in Arithmetic Progression, three other numbers are in geometric progression. Adding the corresponding terms of these two progressions successively, we obtain 181,43 and 49 respectively and adding all the three terms in the arithmetic progression, we get 90. It is found that, the geometric progression has common ratio less than 1. Find the terms of both the progression. (FORMAT: three terms in A.P. followed by three terms in G.P. eg. If 1,2 and 3 are in A.P. and 50,10,2 are in G.P, then answer should be 12350102)",
-
-"Decode the message<br>
-
-   LITILDJRYTS
-
-   <br>
-
-  by just using your keyboard (Answer in lowercase without space)",
-
-"A nuclear reaction projects an atomic particle along a straight line at 900 metres per second. After 5 seconds, a second particle is projected along the same path at a speed of 1200 metres per second. After how many seconds, will the second particle pass the first?",
-
-"There were hundred switches numbered from 1 to 100 in a multi-storey building. All were initially in OFF state. A kid, who felt bored, plays with the switches. He starts from the 1st switch and flips the state of every adjacent switch. Then again, he starts from the 2nd switch and flips the state of every 2nd switch from there on. Likewise, if he started from nth switch, he would flip the state of every nth switch from there on. After n=100, how many switches will be turned ON?",
-
-"If<br> 5=5
-
-<br>8=1
-
-<br>15=15
-
-<br>20=5
-
-<br>35=?",
-
-"A 4X4X4 cube is broken down into smaller identical cubes of equal sizes 1X1X1. Before breaking down the cube, all the 6 faces of the larger cube were painted blue. After breaking down the cube, how many smaller cubes will have at least two faces painted, but not three faces painted?",
-
-"* Each letter in the cryptarithm XYYXXY/ABCD=YX uniquely represents a digit in the decimal scale (0-9). What decimal digits do the letters X and A represent? (Format: decimal equivalent of X followed by decimal equivalent of A).",
-
-"You have x candies that you want to share. You eat one, and then divide the leftover candies into two equal groups, and pass them on to two people. They each eat one, and do the same, and so on. It takes 1 minute to eat a candy, and 30 seconds to pass the candies from one person to the next. If all the candies are eaten in 7 minutes, how many candies were there to begin with?",
-
-"Stephen has a physical balance and wants to measure chocolate packets of different weights. It is assured that, weight of each chocolate bag is a natural number. He wants to buy weights for the balance. The maximum weight of a chocolate packet is 121kg. Find the minimum number of weights he should buy to weigh any packet of weight, not more than 121kg. (Eg. If he buys weights 2kg and 3kg, to weigh a chocolate pack of 1kg, he can place the 1kg pack along with 2kg weight on one side of the balance and 3kg weight on the other side and make sure that, the balance is in balanced state.)",
-
-"Four boys and two girls are supposed to be seated in a row. The constraint is that, the two girls cannot sit together. How many such seating arrangements are possible?",
+"There are 8 people who are participating in rowing races in teams. 3 matches in a row drew, with the following line ups:<br>
+1. 1234 vs 5678<br>
+2. 283 vs 71<br>
+3. 41 vs 865<br>
+The next match is 56 vs?<br>
+If this match is to also be a draw, which person(s) should row against 56? Give your answer in ascending order.",
 
 
-"Mohan is always fond of Math Puzzles. He used to solve many such puzzles and ask the same to his dad. On a fine Sunday, Mohan was stuck with a puzzle and asked for the help of his dad. Brilliant dad cracked the puzzle and explained him how to solve such puzzles. Can you solve the same? Here is the puzzle: Five less than six times the largest of three consecutive positive integers is equal to the square of the smaller number minus twice the middle one. Find all the three integers. Input your answer in ascending order of the three numbers.",
+"Decrypt<br>
+rnmfqctukcthnm",
 
-"John can paint his house in 10 days. After working for 3 days, he hires a helper and the two of them complete the task in next 5 days. How long will it take the helper to complete the task alone?",
 
 
-"40 litre solution of Sulphuric acid has 18 litres of Sulphuric acid. How many litres of water will be available in a 4% Sulphuric acid solution, assuming that, the 4% sulphuric acid solution also contains 18 litres of Sulphuric acid?",
+"Consider the domain of whole numbers where every number is taken and the number is continuously reduced to a non-trivial factor of the number until 0 was reached. Write down the set of numbers in the increasing order that depicts the number of minimum steps it will take to reduce.<br>
+For e.g.: if the minimum steps that can possible be are{ 5,16,19,20,0) then write your answer as:<br>
+05161920",
 
-"A plane needs to be divided into 121 distinct regions. To draw a line, it costs $101. If Tom is a miser and also someone with a good logical mind, how much money in $ would he have spent to achieve the target?",
 
-"If a man walks to work and rides back home, it takes him an hour and a half. When he rides both ways, it takes 30 minutes. How long would it take him to make the round trip by walking? (Answer in minutes)",
 
-"* Samuel, the bot, is standing in position A(1,1) of a 8 X 6 rectangular grid . He is allowed to move either right or down. He travels through the edges of the grids. He is not allowed to move up or left. By how many possible ways, he can reach B(8,6) from A?
- <br>
- <img src='http://localhost/ros/assets/images/fourth.png'/>
+"Continue the series(next term): <br>
+2034, 2036, 2040, 2042, 2044, …?",
+
+
+
+"Samuel, the old man, stated in the year 1937 that, he was y years old in the year y2.Samuel then added, 'if the number of my years(i.e his age in x2) be added to the number of my month(from birthday), it would result in the square of the day of the month(from birthday), on which I was born'. Find his birthdate (Format: DDMMYYYY)",
+
+
+"If <br>
+12=6 <br>
+6=3<br>
+3=5<br>
+5=4<br>
+4=?<br>
 ",
-	
+
+"You need to find a 4 digit code of distinct digits from 0-5. You get feedback on how close you are to the correct code with each try, in the form of m’s and n’s; A m means that a number in your guess is present in the correct code, but in a different position, and a n means that a number in your code is in the same place as it should be in the correct code. Here are your first 4 trials: <br>
+3124 : mm<br>
+0512: mmnn <br>
+1052: mmnn<br>
+3412: nn <br>
+What is the correct code?",
 
 
-"The beginning of baseball season, you make a bet with a friend. For every game, the Mudville Nine plays, you pay him 5$ when they lose, while he pays you 7$ when they win. Mudville Nine played 156 games in the season. When the game is over, you find that, you came out exactly even. How many games did the Mudville Nine win?",
-
-"Find the next two numbers in the series:<br>
-
-4, 6, 12, 18, 30, __ , __<br>
-
-(Type the answer without spaces. Eg. If 12 and 13 are the two numbers, format is 1213)",
-
-"* There was a place called  <b>Land of mystery</b>, which had special creatures called <b>Togepi</b>. Each pair of togepi needs two months initially for growth and after two months, they produce one pair of togepi in the every successor month. Assuming that there was one pair of togepi at the first month (i.e. by the end of third month, this pair would have produced one new pair and it would be one month large), find the number of togepi in the Land of Mystery by the end of one and a half years.",
-
-"Decode the following message:<br>
-
-takouynh
-
-(answer in lowercase. No space allowed)"
+"Ron Weasley bought a magical die having 10 sides(numbered  1 to 10) from  Zonko's Joke Shop in hogsmeade.<br>In this die all the even numbered sides are colored blue and all odd numbered sides are colored white. He wants to find the probabilty of getting a blue color and number 9 in a single throw. Answer him.(answer rounded to 3 decimal places) ",
 
 
-					);
 
-		$p     = $rr1->points;
-		$answered     = $rr1->answered;//total no of questions answered.
-		$totalquestions=count($ques);
-		
-		$t=time();
-		$rs ="2014-01-18 20:27:00";
-	   
-            $rem=$rs;
+"In a certain code, 'TRIAL' is written as 'UQJZM'. How is 'SIKKIM' written in the code?",
+
+
+
+
+"The speed of a bus is 160 km/hr. When a cart load of x is connected, the speed of the bus decreases which is given by the function x^2 +4x-4. What is the minimum speed of the bus.",
+
+
+
+"In a class of 51 students, a1, a2, a3….…a50, a51 are the marks obtained by the students in descending order.  If a1 is excluded, the average decreases by 1% and if a51 is excluded, the average increases by 4/3%.  What is the original average score of the class?",
+
+
+"Mr. Berty's office had an old copying machine and a new one. The older of the two machines take 5 hours to make all copies of a report, while the other machine takes only 3 hours to do the same. He decides to use both the machines to make copies of his report. How long will it take for the job to be completed, if both the machines are used? <br> (Input your answer in number of hours taken. If it takes 6 hours, then input as: 6 )",
+
+
+
+"Ten people decided to start a club and all the 10 have put equal amount. If there had been five more in the group, the initial expense to each would have been $100 less. What was the initial cost per person (in $)?",
+
+
+"What is the value of the product of <br>(19+25) * (19+23) * (19+21) … (19-25)?",
+
+
+
+"If <br> 
+3366 / 13 = 3162 <br>
+9876 - 4545 = 881371 <br>
+then what is : 1234 + 5678 =? <br>",
+
+
+
+"A dishonest milkman sells his milk at cost price but he mixes it with water and thereby gains 50%. What is the percentage of water in the mixture? <br>(Answer rounded to two decimal places)",
+
+
+
+
+"Ramesh and Suresh are playing a game. They are starting off with 300 coins. Each one has to pick atleast 1 coin and atmost 7 coins. The last one to pick a coin wins. Considering both play optimally, how many coins should Ramesh pick initially in order to win the game?",
+
+
+
+
+"In the year 1356, Suresh was Y years old, where 13xx is the square of Y. How old was he in 1342?",
+
+
+
+"Four cards, 0,1, 2 and 6, can be used to display times, like 12:06. Using a 24-hour clock, how many different actual times can be created by rearranging the cards? You must use all four cards each time, and the cards cannot be overlapped.",
+
+
+
+"Haley Dunphy finally found out what she wants to do with her life!She wants to become a writer for Alette fashion magazine.She has compiled all the articles she has posted in her fashion blog as a 1000 page book and sent it to the editor of Alette. She has 500 selfies of hers in the book(because she considers herself as a style icon and most of her articles is about the clothes she wears). Find out probability that there are atleast 2 pictures of her in page 67.
+
+<br>(round off to 2 decimal places)",
+
+
+"Find ?<br>
+<img src='http://kurukshetra.org.in/cerebra/assets/images/2.png'></img><br>
+<img src='http://kurukshetra.org.in/cerebra/assets/images/3.png'></img><br>
+<img src='http://kurukshetra.org.in/cerebra/assets/images/4.png'></img><br>
+
+",
+
+"The average current age of B, A, their daughter and their son who is just born is 22.5 years. Their daughter was born 10 years ago. The average age of B, his parents and A, 15 years back was 38.75 years. The average age of B and his parents, 20 years back, was 38.33 years. What is A’s present age?",
+
+
+
+"Let the function partition(p,q) denote the number of ways you can partition a p element set into q non-empty subsets. Then what is the value of partition(4,2)?",
+
+
+
+
+"Meena throws 5 dices at the same time. The product of the numbers on the face is 216. What is the middle sum( not greatest, not least) that can be obtained? -- Can change this question to lowest or highest sum in case find it confusing.",
+
+
+
+"Professor Marvin gave marks based upon an average of a series of test. As John came to the last test, he realized that, he would have to make a 97 in order to average 90 for the course. On the other hand, if he was as low as 73, he would still be able to average 87. How many tests were there in Professor Marvin's series?",
+
+
+"SS, MT, WT, ? <br>",
+
+
+
+"In 'Perinopica', there was a circular playground. There are four points of entry into the playground – A, B, C and D. Three routes were constructed which joined AB, CD and AD. AB=10 and CD=7. Later the township extended the routes AB and CD past B and C respectively and they meet at a point E on the sidewalk outside the playground. If BE=8 and angle (AED) = 60 degrees, find the area enclosed by the routes AE, ED and AD. <br>(Answer closest to the nearest integer).",
+
+
+
+"1.  write a list of consecutive integers from Z to 2 (Z, Z-1, Z-2, ..., 3, 2)..<br>
+2.  assign  A equal to  Z.<br>
+3. Circle  all the proper divisors of A (i.e. Remember that A is not circled).<br>
+4. Find the largest  number from 2 to A – 1 that is not circled yet, and now let A  equal this number.<br>
+5. If there were no more  numbers in the list which are not circled, STOP. Otherwise, repeat from step 3.<br>
+If z=333 how many numbers will remain in the list at the end which are not circled.",
+
+
+
+"X's mother's father is the husband of Y's mother. If X and Y are both male, how is X related to Y? <br>(Answer in lower case without any spaces. If needed use ‘–‘ eg: brother-in-law)",
+
+
+"Cool numbers are numbers whose prime factors are 2,3 or 5.<br>
+First cool number is 1,second cool number is 2. Similarly 7th cool number is 8.<br>
+What is 150th cool number ? ",
+
+
+
+"A set contains all possible 8 digit numbers that can be formed using the digits from 1 to 8 without any repetition. If an element of the set is selected at random, find the probability that if any five consecutive positions of the selected number are taken, the product of the digits of these positions is divisible by5. <br>(Answer close to 2 decimal places i.e. 0.xy)",
+
+
+"The height of Mike was 6 metres above sea level. He was standing on a ship south of a light house and observed his shadow to be 24 metres long as measured at sea level.  Now the ship travels 300 metres eastwards and now he observes that his shadow is 300 metres long measured at sea level. What is the height of the light house in metres measured above sea level?",
+
+
+"A 2 year old child started learning addition but he has not yet learnt how to carry. He knows 2+4=6 but cannot calculate 3+9. How many pairs of consecutive natural numbers from 1000 to 2000 can the child add?",
+
+
+"If<br>
+Q(4) = 4<br>
+Q(11) = 143<br>
+Q(16) = 1596<br>
+then what is Q(23)?
+",
+
+"<br><img src='http://kurukshetra.org.in/cerebra/assets/images/5.png'></img><br>
+Find the area in cm^2 of the shaded region, if the inner circles are all of same radius 7cm and the outer circle is of radius 16cm.
+Format: Round off to the nearest integer. ",
+
+
+"If two smaller faces are congruent and the remaining four larger faces are congruent in a cuboid and each face is to be painted using the colours blue or red, what is the number of distinct cuboids that can be obtained?",
+
+
+"Find the next term in the series: <br>
+1,2,12,288,___ ",
+
+
+"Decode the following: <br>
+raydarnkij <br>
+(HINT: You will need the name of a cipher)"
+
+);
+
+    $p     = $rr1->points;
+    $answered     = $rr1->answered;//total no of questions answered.
+    $totalquestions=count($ques)-1;
+    date_default_timezone_set('Asia/Calcutta');
+    $t=time();
+    $rs = $this->db->query("select st_time from start_cerebra");
+        $rem=0;
+        if ($rs->num_rows() == 1) {
+            $rrs     = $rs->row();
+            $st_time = $rrs->st_time;
+            $rem=$t-human_to_unix($st_time);
 ?>
 <script type="text/javascript">
-			var phptimestamp = "<? echo human_to_unix($st_time)+5400;?>";			
-			 
-		</script>
+      var phptimestamp = "<? echo human_to_unix($st_time)+5400;?>";      
+       
+    </script>
 <?
             //$diff    = $t - $st_time;
             //$rem     = ($diff + 109899) - $t;
-			$flag=1;
-		
-		
-	if($rem<=0){
-			$msg="<h2>Please wait till 20:00 IST !!</h2></div>";
-						$flag=0;
-		}
-		
-		if($flag==1){
-			if($rem>=5400)
-			{
-				$msg="<h2>Cerebra main contest ended !! </h2></div>";
-				$flag=0;
-			}
-		}
-		
+      $flag=1;
+    }
+    
+  if($rem<=0){
+      $msg="<h2>Please wait till 20:00 IST !!</h2></div>";
+            $flag=0;
+    }
+    
+    if($flag==1){
+      if($rem>=5400)
+      {
+        $msg="<h2>Cerebra main contest ended !! </h2></div>";
+        $flag=0;
+      }
+    }
+    
 
-				
-					
+        
+          
 
-		//	$time_dif=$t-human_to_unix($st_time);				
-			
-			$totalques=count($ques);
-			$code='<font color="#800080"></h2><div class="col-md-9">';
-			
-			
-			if($totalquestions==$answered)
-			{
-				$code.="<h2>You have completed!!</h2>";
-				$code.="</div>";
-			}
-			else if($flag==0){
-				$code.=$msg;
-			}
-			
-			else{
-					$code.='<div id="fixed-div">
-<div class="row"><h3><div id="countdown"></div></h3>
-<h3 align="left"><div style="display:inline;">Points : &nbsp' . $p . '</div></h3></div></div>
+    //  $time_dif=$t-human_to_unix($st_time);        
+      ///////////////////////////////////////////////////////////
+      $totalques=count($ques);
+      $code='</h2><div class="col-md-9 question">';
+      
+      
+      if($totalquestions==$answered)
+      {
+        $code.="<h2>You have completed!!</h2>";
+        $code.="</div>";
+      }
+      else if($flag==0){
+        $code.=$msg;
+      }
+      
+      else{
+          $code.='<div id="fixed-div">
+<div class="row"><div id="countdown"></div>
+<div align="left" style="display:inline;">Points : &nbsp' . $p . '</div></div></div>
     <script>
     // set the date were counting down to
 
@@ -287,11 +344,11 @@ setInterval(function () {
      
     minutes = parseInt(seconds_left / 60);
     seconds = parseInt(seconds_left % 60);
-     if(minutes<=0)
+     if(minutes<=0 && hours==0)
  { 
 if(seconds<=0) { location.reload(true); 
      document.getElementById("countdown").innerHTML="Time is Up !!" ; }
-else document.getElementById("countdown").innerHTML="Time is  Running Up !! "+ hours + "h: "+ minutes + "m: " + seconds + "s";
+else document.getElementById("countdown").innerHTML="Time is  Running!!<br>"+ hours + "h: "+ minutes + "m: " + seconds + "s";
 }
     // format countdown string + set tag value
 if(seconds>=0 && minutes>0)
@@ -299,48 +356,52 @@ if(seconds>=0 && minutes>0)
  
 }, 1000);
     </script><div id="mascot" class="col-md-4 col-md-offset-8 "></div></h3> 
-			';
-					for ($u = 1; $u <$totalques; $u++) {
+      ';
+          for ($u = 1; $u <$totalques; $u++) {
 
-				if (!$qa[$u]) {
-				$code .= '<br>
-				<b>Question ' . $u . '</b>
-				<div class="span6"><b>Attempts : </b>&nbsp;
-				<div style="display:inline;">' . $qw[$u] . '</div></div>
-			<form name="unanswered' .$u. '" method="post" action="http://localhost/cerebra/submit">
-			<input type="hidden" name="level" value="' .$u. '"/>
-			<br>' . $ques[$u] . '<br>
-			<br>
-			<input type="text" class="form-control input-lg" name="answer" id="t' . $u . '" placeholder="Your Answer Here!!" tab-index="'.$u.'"/>
-			<br><button type="submit" class="btn btn-primary btn-lg" id="but'.$u.'" style="float:right;"  >Submit</button>
-			</form>';
-								} 
+        if ($qa[$u]==0) {
+        $code .= '<br>
+        <b>Question ' . $u . '</b>
+        <div class="span6"><b>Attempts : </b>&nbsp;
+        <div style="display:inline;">' . $qw[$u] . '</div></div>
 
-			else {
-						$code .= '<br><div clas="span4" ><div class="well alert-success round">
-									<b>Question ' . $u . '</b>
-									<div class="span4"><b>Attempts : </b>&nbsp;
-									<div id=athena_attempts_t' . $u . ' style="display:inline;">' . $qw[$u] . '</div></div>
-									<div class="span4"><div id=qc' . $u . ' style="display:inline;">
-									<strong>Answered Correctly!</strong></div><div id=qs' . $u . '></div></div></div></div>';
-								}
-					}
-					
-					
-			}
-			return $code;
-	
-	
+<!------------------------------------------------------------------------------------------------------------------------------>
+      <form name="unanswered' .$u. '" method="post" action="http://kurukshetra.org.in/cerebra/submit">
+      <input type="hidden" name="level" value="' .$u. '"/>
+      <br>' . $ques[$u] . '<br>
+      <br>
+      <input type="text" class="form-control input-lg" name="answer" id="t' . $u . '" placeholder="Your Answer Here!!" tab-index="'.$u.'"/>
+      <br><button type="submit" class="btn btn-primary btn-lg" id="but'.$u.'" style="float:right;"  >Submit</button>
+      </form>';
+                } 
+
+      else {
+            $code .= '<br><br><div clas="span4" ><div class="well alert-success round">
+                  <b>Question ' . $u . '</b>
+                  <div class="span4"><b>Attempts : </b>&nbsp;
+                  <div id=athena_attempts_t' . $u . ' style="display:inline;">' . $qw[$u] . '</div></div>
+                  <div class="span4"><div id=qc' . $u . ' style="display:inline;">
+                  <strong>Answered Correctly!</strong></div><div id=qs' . $u . '></div></div></div></div>';
+                }
+          }
+          
+          
+      }
+      return $code;
+  
+  
 
 }
 
 public function getanswer($level,$answer,$kid)
 {
-	//return 10;
-	$answer_arr=array("0",
-"647","four","655656","1/8","7","26820","4652","117","58.32","2","1330","paulwalker","40","99","uncle","1","7","120000","337","5","123048169131","kurukshetra","15","10","49","24","35","31","5","480","91011","25","432","1515","150","792","65","4260","5168","thankyou"
-	);
-	 $t  = time();
+  //return 10;
+ $answer_arr=array("0","142", "0.25", "4", "congratulation", "1234", "2046", "07051892", "4", "5012", "0.000", "THLJJL", "24", "60", "1.875", "300", "0", "562819112312", "33.33", "4", "23", "10", "0.09","23", "40", "7", "18", "8", "FS", "125", "167", "nephew", "5832", "0.25", "106", "156", "46367", "146", "18", "34560", "paulwalker");
+  
+    date_default_timezone_set('Asia/Calcutta');
+   $t  = time();
+
+
         $rs = $this->db->query("select st_time from start_cerebra");
         if ($rs->num_rows() == 1) {
             $rrs     = $rs->row();
@@ -349,82 +410,70 @@ public function getanswer($level,$answer,$kid)
             if ($diff > 5400)
                 return ;
                 }
-		if(trim($answer)==null) return;
-		
-		else{
-		
-		$q1="select points,answered from cerebra_users where kid=?";
-		$r1= $this->db->query($q1,$kid);
-		$rr1   = $r1->row();
-		$q2    = "select qid,attempt,flag from k13_cerebra where kid=?";
-		$r2    = $this->db->query($q2,$kid);
-		$rr2   = $r2->row();
-		$qid=array(0);
-		foreach($r2->result() as $row)
-			$qid[]=$row->qid;
-		
-		$qa=array(0);
-		$qw=array(0);
-		//$qa    = $rr2->flag;
-		//$qw    = $rr2->attempt;
-		foreach($r2->result() as $row)
-			{
-				$qa[]=$row->flag;
-				$qw[] = $row->attempt;
-			}
-		
-		$p     = $rr1->points;
-		$answered     = $rr1->answered;
-			if(strcmp($answer,$answer_arr[$level])==0)
-			{
 
-				$p=$p+3;
-				$answered=$answered+1;
-				$qq = "update k13_cerebra set flag='1' where kid='$kid' and qid='$level'";
-                $this->db->query($qq);
-                $ar = "update cerebra_users set points='$p',answered='$answered' where kid='$kid'";
-                $this->db->query($ar);
+    if(trim($answer)==null) return;
+    
+    else{
+    
+     $this->db->select('points,answered');
+    $r1 = $this->db->get_where('cerebra_users',array('kid'=>$kid));
+  //  $q1="select points,answered from cerebra_users where kid='$kid'";
+    //$r1= $this->db->query($q1);
+    $rr1   = $r1->row();
+       $this->db->select('qid,attempt,flag');
+       $r2 = $this->db->get_where('k13_cerebra',array('kid'=>$kid));
+    
+    //$r2    = $this->db->query($q2);
+    $rr2   = $r2->row();
+    $qid=array();
+    $i=1;
+    foreach($r2->result() as $row)
+      $qid[$i++]=$row->qid;
 
-                 	$config['appId'] = FB_APPID;
-                    $config['secret'] = FB_SECRET;
-                    $config['cookie'] = true;
-              
-              $this->load->library('facebook-source/facebook',$config);
-                   
-                    $facebook = new Facebook(array(
-                        'appId'  => FB_APPID,
-                        'secret' => FB_SECRET,
-                    ));
-                     $user = $facebook->getUser();
-                    if($user)
-                      {
-                      try {
-                            $publishStream = $facebook->api("/$user/feed", 'post', array(
-                              'message' => "Started playing Cerebra Set-4",
-                              'link'    => 'http://kurukshetra.org.in/cerebra',
-                              'picture' => 'http://mediahive.kurukshetra.org.in/2013/thumb/CER.jpg',
-                              'name'    => 'Cerebra | Kurukshetra 2013',
-                              'description'=> 'Cerebra is the Online Puzzle Challenge of Kurukshetra\'13 conducted for 90 minutes. Its open for both Students and Corporates. Get ready for the challenge!'
-                              )
-                   
-                            );
-                   //echo "asassa";
-                          } catch (FacebookApiException $e) {
-                            
-                       }   
-                    }
-			}
-			else
-			{
-				$attempt=$qw[$level];
-				$attempt=$attempt+1;
-				$p=$p-1;
-				$qq = "update k13_cerebra set attempt='$attempt' where kid='$kid' and qid='$level'";
-				$ar = "update cerebra_users set points='$p' where kid='$kid'";
-				$this->db->query($qq);
-				$this->db->query($ar);
-			}
-			
-	}
+
+
+    $i=1;
+    $qa=array();
+    $qw=array();
+    //$qa    = $rr2->flag;
+    //$qw    = $rr2->attempt;
+    foreach($r2->result() as $row)
+      {
+        $qa[$i]=$row->flag;
+        $qw[$i] = $row->attempt;
+        $i++;
+      }
+    
+    $p     = $rr1->points;
+    $answered     = $rr1->answered;
+      if(strcmp(($answer),$answer_arr[$level])==0)
+      {
+
+        $p=$p+3;
+        $answered=$answered+1;
+///////////////////////////////////////////////
+        $this->db->update('k13_cerebra', array('flag'=>1), array('kid' => $kid,'qid'=>$qid[$level]));
+        //$qq = "update k13_cerebra set flag='1' where kid='$kid' and qid='$level'";
+                //$this->db->query($qq);
+                $this->db->update('cerebra_users', array('points'=>$p,'answered'=>$answered), array('kid' => $kid));
+                //$ar = "update cerebra_users set points='$p',answered='$answered' where kid='$kid'";
+                //$this->db->query($ar);
+
+              }
+      else
+      {
+        
+        $attempt=$qw[$level];
+        $attempt=$attempt+1;
+        $p=$p-1;
+        $this->db->update('k13_cerebra', array('attempt'=>$attempt), array('kid' => $kid,'qid'=>$level));
+        $this->db->update('cerebra_users', array('points'=>$p), array('kid' => $kid));
+        //$qq = "update k13_cerebra set attempt='$attempt' where kid='$kid' and qid='$level'";
+        //$ar = "update cerebra_users set points='$points' where kid='$kid'";
+        //$this->db->query($qq);
+        //$this->db->query($ar);
+      }
+      
+  }
 }
 }

@@ -3,7 +3,9 @@
                 <ul class="nav nav-pills wooden-navigation">
                     <li><a href="<?echo base_url();?>">Home</a></li>
                     <li><a href="<?echo base_url();?>play">PLAY</a></li>
+                    <li><a href="<?echo base_url();?>forum">Forum</a></li>
                     <li><a href="<?echo base_url();?>leaderboard">Leaderboard</a></li>
+
                                   
                  <ul class="nav pull-right nav-pills wooden-navigation">
                   
@@ -19,12 +21,12 @@
                         <li name="k-connect-profile" class="dropdowns">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
                                 <span name="fullname">
-		
-			<? if($logged_in>0) 
-			{ ?>
-		<img src="<?php echo encode_base64_image(gravatar($log->email, array('s' => 20, 'd' => 'wavatar'))); ?>"> <?} ?>
-		<? echo $log->fullname; ?>
-		 <small>(<? echo $log->kid; ?>)</small> <li><a href="javascript:void(0)" name="attempt-logout">Logout</a></li></span>
+    
+      <? if($logged_in>0) 
+      { ?>
+    <img src="<?php echo encode_base64_image(gravatar($log->email, array('s' => 20, 'd' => 'wavatar'))); ?>"> <?} ?>
+    <? echo $log->fullname; ?>
+     <small>(<? echo $log->kid; ?>)</small> <li><a href="javascript:void(0)" name="attempt-logout">Logout</a></li></span>
                             </a> 
                           <!--  <ul class="dropdown-menu"> -->
                               <!--  <li><a href="<? //echo base_url(); ?>profile/<? echo $log->profilename; ?>">Profile</a></li> -->

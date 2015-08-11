@@ -15,7 +15,7 @@
 |
 */
 $config['base_url']	= 'http://localhost/cerebra';
-//$config['base_url']	= 'http://kurukshetra.org.in/cerebra';
+//$config['base_url']	= 'http://www.kurukshetra.org.in/cerebra';
 /*
 |--------------------------------------------------------------------------
 | Index File

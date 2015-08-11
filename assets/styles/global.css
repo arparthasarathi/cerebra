@@ -2,22 +2,14 @@ body
 {
 	
     
-   background: rgba(201,201,201,1);
-background: -moz-radial-gradient(center, ellipse cover, rgba(201,201,201,1) 0%, rgba(186,186,186,1) 19%, rgba(186,186,186,1) 20%, rgba(193,193,193,1) 49%, rgba(196,196,196,1) 60%, rgba(227,227,227,1) 95%);
-background: -webkit-gradient(radial, center center, 0px, center center, 100%, , color-stop(0%, rgba(201,201,201,1)), color-stop(19%, rgba(186,186,186,1)), color-stop(20%, rgba(186,186,186,1)), color-stop(49%, rgba(193,193,193,1)), color-stop(60%, rgba(196,196,196,1)), color-stop(95%, rgba(227,227,227,1)));
-background: -webkit-radial-gradient(center, ellipse cover, rgba(201,201,201,1) 0%, rgba(186,186,186,1) 19%, rgba(186,186,186,1) 20%, rgba(193,193,193,1) 49%, rgba(196,196,196,1) 60%, rgba(227,227,227,1) 95%);
-background: -o-radial-gradient(center, ellipse cover, rgba(201,201,201,1) 0%, rgba(186,186,186,1) 19%, rgba(186,186,186,1) 20%, rgba(193,193,193,1) 49%, rgba(196,196,196,1) 60%, rgba(227,227,227,1) 95%);
-background: -ms-radial-gradient(center, ellipse cover, rgba(201,201,201,1) 0%, rgba(186,186,186,1) 19%, rgba(186,186,186,1) 20%, rgba(193,193,193,1) 49%, rgba(196,196,196,1) 60%, rgba(227,227,227,1) 95%);
-background: radial-gradient(ellipse at center, rgba(201,201,201,1) 0%, rgba(186,186,186,1) 19%, rgba(186,186,186,1) 20%, rgba(193,193,193,1) 49%, rgba(196,196,196,1) 60%, rgba(227,227,227,1) 95%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9c9c9', endColorstr='#e3e3e3', GradientType=1 );
-	background-color:black;
+  background-image: url('graybg.jpg');
 	background-size: 100% 100%;
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 
 	color: #000;
-	font-family: 'Roboto';
+	
 		
 }
 
@@ -49,12 +41,16 @@ header {
 }
 
 .wooden-navigation {
-	
+	background-color: black;
 	background-size: auto 50px;
 	background-repeat: repeat-x;
 	height: 50px;
+	font-family: 'BlenderPro';
 	
-	font-family: 'Dalek';
+}
+[font-samarkan]
+{
+	font-family: 'Samarkan';
 }
 
 .wooden-navigation > li {
@@ -62,7 +58,7 @@ header {
 }
 
 .wooden-navigation > li > a {
-	color: #800080;
+	color: #fff;
 	font-size: 20px;
 	text-transform: uppercase;
 	letter-spacing: 1px;
@@ -96,6 +92,7 @@ header {
 }
 .empty-track {
 	height: 100px;
+	font-size: 20px;
 }
 .btn {
    -webkit-border-radius: 20px;
@@ -123,11 +120,11 @@ height:45%;
 
 }
 #fixed-div {
-		background-image :url('../images/chat.png');
+		background-color: #000000
 background-repeat: no-repeat;
 border-radius:10px;
-    position: fixed;
-    top: 29%;
+ position: fixed;
+ top: 29%;
     right: -5%;
 padding:60px;
 width:25%;
@@ -184,46 +181,18 @@ form[name="answer-form"] input:-ms-input-placeholder {
 	padding: 10px;
 }
 
-[egyptmale] {
-	margin-left: 50px;
+.leader-container
+{
+background-color:#9932cc;
+color:#fff;
+width:100%;
+height:100%;
 }
 
-.arrow_box {
-	position: absolute;
-	margin-right: 150px;
-	margin-top: 15px;
-	background: #482D0F;
-	box-shadow: 0 0 10px rgba(0,0,0,0.5);
-	padding: 10px;
-	border-radius: 10px;
-	font-size: 15px;
-}
-.arrow_box:after, .arrow_box:before {
-	left: 100%;
-	top: 50%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-}
-
-.arrow_box:after {
-	border-color: rgba(136, 183, 213, 0);
-	border-left-color: #482D0F;
-	border-width: 10px;
-	margin-top: -10px;
-}
-.arrow_box:before {
-	border-color: rgba(194, 225, 245, 0);
-	border-width: 16px;
-	margin-top: -16px;
-}
 
 .modal-content {
-	background: transparent;
-	background-color:rgba(185,185,185,1.0);
+	
+	background-color:white;
 	color: #111;
 	padding: 10px;
 
@@ -233,10 +202,7 @@ form[name="answer-form"] input:-ms-input-placeholder {
 	border: none;
 }
 
-.modal-title {
-	font-family: 'UglyQua';
-	font-size: 20px;
-}
+
 .well
 {
 	background:transparent;
@@ -248,17 +214,21 @@ form[name="answer-form"] input:-ms-input-placeholder {
 	border:2px;
 	border-radius:50px;
 }
-
+.input-lg
+{
+	color: black;
+	font-family: 'Arial';
+}
 
 [name="loginform"] > input[type="email"], [name="loginform"] > input[type="password"] {
 	width: 100%;
 	
-	background:transparent;
+	background-color: white;
 	border: none;
 	border-bottom: 2px solid #2B1402;
 	padding: 10px;
 	font-size: 20px;
-	font-family: 'Dalek';
+	
 	 -moz-appearance:    textfield;
         -webkit-appearance: textfield;
         appearance: textfield;
@@ -285,7 +255,7 @@ form[name="answer-form"] input:-ms-input-placeholder {
 }
 
 [name="loginform"] > button[type="submit"] {
-	background-color: transparent;
+	background-color: white;
 	color: #444;
 	font-size: 20px;
 	font-family: 'UglyQua';
@@ -328,23 +298,28 @@ form[name="answer-form"] input:-ms-input-placeholder {
 	font-size: 20px;
 }
 .personal
-
 {
-	
-
-color: white;
+color:white ;
+font-size:25px;
+background-color:#3E6DFF ;
+font-family: 'BlenderPro';
 text-align: center;
-font-size: 25px;
+}
+.ral
+{
+	text-align: center;
 }
 .others
 {
-	
 	color: white;
+	background-color: #3E6DFF;
+	font-family: 'BlenderPro';
 	font-size: 20px;
 	margin-left: 16%;
 	margin-top: 2%;
 	border-width: 2px;
 	border:2px;
+	
 }
 
 .nav-stacked > li {
@@ -395,4 +370,198 @@ font-size: 25px;
 .nav-tabs.nav-stacked > li > a:focus {
   border-color: #ddd;
   z-index: 2;
+}
+.question
+{
+	font-family: 'BlenderPro';
+	color: #3E6DFF;
+	font-size:20px;
+}
+
+
+
+form[name="answer-form"] > button[type="submit"]:hover {
+	background-color: #2B1402;
+	color: #FFF;
+}
+
+form[name="answer-form"] input::-webkit-input-placeholder {
+    color:    #000;
+}
+
+form[name="answer-form"] input:-moz-placeholder {
+    color:    #000;
+}
+
+form[name="answer-form"] input::-moz-placeholder {
+    color:    #000;
+}
+
+form[name="answer-form"] input:-ms-input-placeholder {
+    color:    #000;
+}
+
+.question-display {
+	font-family: 'UglyQua';
+	color: #111;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 10px;
+}
+
+[egyptmale] {
+	margin-left: 50px;
+}
+
+.arrow_box {
+	position: absolute;
+	margin-right: 150px;
+	margin-top: 15px;
+	background: #482D0F;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+	padding: 10px;
+	border-radius: 10px;
+	font-size: 15px;
+}
+.arrow_box:after, .arrow_box:before {
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+.leader-container
+{
+background-color:#9932cc;
+color:#fff;
+width:100%;
+height:100%;
+}
+
+.arrow_box:after {
+	border-color: rgba(136, 183, 213, 0);
+	border-left-color: #482D0F;
+	border-width: 10px;
+	margin-top: -10px;
+}
+.arrow_box:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-width: 16px;
+	margin-top: -16px;
+}
+
+.modal-content {
+	
+	background-color:white;
+	color: #111;
+	padding: 10px;
+
+}
+
+.modal-header {
+	border: none;
+}
+
+.modal-title {
+	font-family: 'UglyQua';
+	font-size: 20px;
+}
+.well
+{
+	background:transparent;
+	background-color: #98e698;
+		
+}
+.round
+{
+	border:2px;
+	border-radius:50px;
+}
+
+
+[name="loginform"] > input[type="email"], [name="loginform"] > input[type="password"] {
+	width: 100%;
+	
+	background-color: white;
+	border: none;
+	border-bottom: 2px solid #2B1402;
+	padding: 10px;
+	font-size: 20px;
+	
+	 -moz-appearance:    textfield;
+        -webkit-appearance: textfield;
+        appearance: textfield;
+}
+
+[name="loginform"] input::-webkit-input-placeholder {
+    color:    #000;
+}
+
+[name="loginform"] input:-moz-placeholder {
+    color:    #000;
+}
+
+[name="loginform"] input::-moz-placeholder {
+    color:    #000;
+}
+
+[name="loginform"] input:-ms-input-placeholder {
+    color:    #000;
+}
+
+[name="loginform"] > input[type="email"]:focus, [name="loginform"] > input[type="password"]:focus {
+	outline: none;
+}
+
+[name="loginform"] > button[type="submit"] {
+	background-color: white;
+	color: #444;
+	font-size: 20px;
+	font-family: 'BlenderPro';
+	float: right;
+	margin: 10px;
+	padding: 5px 20px;
+	border: 1px solid #2B1402;
+	color: #2B1402;
+	-webkit-transition: all 550ms ease-out;
+	-moz-transition: all 550ms ease-out;
+	-ms-transition: all 550ms ease-out;
+	-o-transition: all 550ms ease-out;
+	transition: all 550ms ease-out;
+}
+
+[name="loginform"] > button[type="submit"]:hover {
+	background-color: white;
+	color: black;
+}
+
+.fa-big {
+	font-size: 100px;
+	padding: 20px 40px;
+}
+.center-page
+{
+	margin-top: 2%;
+	font-size: 35px;
+	text-align: center;
+}
+.white-head
+{
+
+	text-align: center;
+	font-size: 30px;
+	text-decoration: underline;
+}
+
+
+
+
+.question
+{
+	font-family: 'BlenderPro';
+	color: #561227;
+	font-size:20px;
 }
